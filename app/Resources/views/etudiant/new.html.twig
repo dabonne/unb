@@ -1,0 +1,38 @@
+{% extends 'principal.html.twig' %}
+
+{% block stylesheets %}
+    {{ parent() }}
+{% endblock %}
+
+{% block body %}
+    {% block header %}
+        {{ parent() }}
+    {% endblock %}
+    {% block content %}
+
+        <h1>Etudiant creation</h1>
+
+    {{ form_start(form) }}
+        {{ form_widget(form) }}
+        <button class="btn btn-outline-success btn btn-light-green btn-sm" type="submit">Create</button>
+    {{ form_end(form) }}
+
+    <ul>
+        <li>
+            <a href="{{ path('etudiant_index') }}">Back to the list</a>
+        </li>
+    </ul>
+{% endblock %}
+
+    {% block footer %}
+    {% endblock %}
+{% endblock %}
+{% block javascripts %}
+    {{ parent() }}
+    <script>
+        $(function () {
+
+        })
+    </script>
+{% endblock %}
+

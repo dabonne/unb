@@ -1,0 +1,183 @@
+imports:
+    - { resource: parameters.yml }
+    - { resource: security.yml }
+    - { resource: easy_admin_config.yml }
+    - { resource: services.yml }
+    - { resource: hwi_oauth.yml  }
+
+# Put parameters here that don't need to change on each machine where the app is deployed
+# https://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
+parameters:
+    locale: fr
+    app.path.etudiants_image: uploads/etudiants/avatar
+    app.path.etudiants_cvs: uploads/etudiants/cv
+    app.path.annonces_pieces: uploads/annonces/pieces
+    app.path.diplomes_fichdiplomes: uploads/diplomes/fichier
+#app/config/config.yml
+fos_elastica:
+    clients:
+        default: { host: localhost, port: 9200 }
+    indexes:
+        app:
+            types:
+                diplome:
+                    properties:
+                        dateDelivrance: ~
+                        numeroDiplome: ~
+                    persistence:
+                        # the driver can be orm, mongodb or phpcr
+                        driver: orm
+                        model: AppBundle:Diplome
+                        provider: ~
+                        finder: ~
+fos_js_routing:
+     routes_to_expose: [ (.*) ]
+
+framework:
+    #esi: ~
+    templating:
+        engines: ['twig']
+    translator: { fallbacks: ['%locale%'] }
+    secret: '%secret%'
+    router:
+        resource: '%kernel.project_dir%/app/config/routing.yml'
+        strict_requirements: ~
+    form: ~
+    csrf_protection: ~
+    validation: { enable_annotations: true }
+    #serializer: { enable_annotations: true }
+    default_locale: '%locale%'
+    trusted_hosts: ~
+    session:
+        # https://symfony.com/doc/current/reference/configuration/framework.html#handler-id
+        handler_id: session.handler.native_file
+        save_path: '%kernel.project_dir%/var/sessions/%kernel.environment%'
+    fragments: ~
+    http_method_override: true
+    assets: ~
+    php_errors:
+        log: true
+
+# Twig Configuration
+twig:
+    debug: '%kernel.debug%'
+    strict_variables: '%kernel.debug%'
+    form_themes:
+      - 'bootstrap_3_layout.html.twig'
+      - '@FOSCKEditor/Form/ckeditor_widget.html.twig'
+
+# app/config/config.yml
+fos_ck_editor:
+    configs:
+        my_config:
+            toolbar: [ ["Source", "-", "Save"], "/", ["Anchor"], "/", ["Maximize"] ]
+            uiColor:                "#000000"
+            filebrowserUploadRoute: "my_route"
+            extraPlugins:           "wordcount"
+            # ...
+# app/config/config.yml
+fos_user:
+    db_driver: orm # other valid values are 'mongodb' and 'couchdb'
+    firewall_name: main
+    user_class: AppBundle\Entity\Utilisateur
+    from_email:
+        address: "dabonnehoda@gmail.com"
+        sender_name: "Universite Nazi Boni"
+    service:
+        mailer: fos_user.mailer.twig_swift
+    registration:
+        form:
+            validation_groups: [Default, Registration]
+        confirmation:
+            enabled: true
+            from_email:
+                address: noreply@baseetudiant.com
+                sender_name: Universite Nazi Boni
+            template: 'email/registration.email.twig'
+
+#Swiftmailer Confoguration
+#Swiftmailer Confoguration
+swiftmailer:
+    transport: '%mailer_transport%'
+    auth_mode: '%mailer_auth_mode%'
+    host: '%mailer_host%'
+    port: '%mailer_port%'
+    username: '%mailer_user%'
+    password: '%mailer_password%'
+    encryption: '%mailer_encryption%'
+    spool: {type: memory}
+
+#KnpPaginator configuration
+knp_paginator:
+    page_range: 5                      # default page range used in pagination control
+    default_options:
+        page_name: page                # page query parameter name
+        sort_field_name: sort          # sort field query parameter name
+        sort_direction_name: direction # sort direction query parameter name
+        distinct: true                 # ensure distinct results, useful when ORM queries are using GROUP BY statements
+    template:
+        pagination: KnpPaginatorBundle:Pagination:twitter_bootstrap_v4_pagination.html.twig     # sliding pagination controls template
+        sortable: KnpPaginatorBundle:Pagination:sortable_link.html.twig # sort link template
+
+# Doctrine Configuration
+doctrine:
+    dbal:
+        driver: pdo_mysql
+        host: '%database_host%'
+        port: '%database_port%'
+        dbname: '%database_name%'
+        user: '%database_user%'
+        password: '%database_password%'
+        charset: UTF8
+        # if using pdo_sqlite as your database driver:
+        #   1. add the path in parameters.yml
+        #     e.g. database_path: '%kernel.project_dir%/var/data/data.sqlite'
+        #   2. Uncomment database_path in parameters.yml.dist
+        #   3. Uncomment next line:
+        #path: '%database_path%'
+
+    orm:
+        auto_generate_proxy_classes: '%kernel.debug%'
+        naming_strategy: doctrine.orm.naming_strategy.underscore
+        auto_mapping: true
+
+
+sensio_framework_extra:
+   router:
+        annotations: false
+
+# config / packages / vich_uploader.yaml ou app / config / config.yml
+vich_uploader :
+     db_driver : orm
+     mappings:
+         etudiants_image:
+             uri_prefix: '%app.path.etudiants_image%'
+             upload_destination: '%kernel.root_dir%/../web/%app.path.etudiants_image%'
+             namer: vich_uploader.namer_uniqid
+             inject_on_load: false
+             delete_on_update: true
+             delete_on_remove: true
+         etudiants_cvs:
+              uri_prefix: '%app.path.etudiants_cvs%'
+              upload_destination: '%kernel.root_dir%/../web/uploads/etudiants/cv'
+              namer: vich_uploader.namer_uniqid
+              inject_on_load: false
+              delete_on_update: true
+              delete_on_remove: true
+         annonces_pieces:
+              uri_prefix: '%app.path.annonces_pieces%'
+              upload_destination: '%kernel.root_dir%/../web/uploads/annonces/pieces'
+              namer: vich_uploader.namer_uniqid
+              inject_on_load: false
+              delete_on_update: true
+              delete_on_remove: true
+         diplomes_fichdiplomes:
+              uri_prefix: '%app.path.diplomes_fichdiplomes%'
+              upload_destination: '%kernel.root_dir%/../web/uploads/diplomes/fichier'
+              namer: vich_uploader.namer_uniqid
+              inject_on_load: false
+              delete_on_update: true
+              delete_on_remove: true
+
+
+

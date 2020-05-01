@@ -1,0 +1,35 @@
+app_diplome:
+    resource: "@AppBundle/Resources/config/routing/diplome.yml"
+    prefix:   /diplome
+
+app_etablissement:
+    resource: "@AppBundle/Resources/config/routing/etablissement.yml"
+    prefix:   /etablissement
+
+app_utilisateur:
+    resource: "@AppBundle/Resources/config/routing/utilisateur.yml"
+    prefix:   /utilisateur
+
+app_homepage:
+    path:     /
+    defaults: { _controller: "AppBundle:Default:index" }
+
+app_entreprise:
+    resource: "@AppBundle/Resources/config/routing/entreprise.yml"
+    prefix:   /entreprise
+
+app_certificat:
+    resource: "@AppBundle/Resources/config/routing/certificat.yml"
+    prefix:   /certificat
+
+app_etudiant:
+    resource: "@AppBundle/Resources/config/routing/etudiant.yml"
+    prefix:   /etudiant
+
+app_annonce:
+    resource: "@AppBundle/Resources/config/routing/annonce.yml"
+    prefix:   /annonce
+
+app_nature:
+    resource: "@AppBundle/Resources/config/routing/nature.yml"
+    prefix:   /formation

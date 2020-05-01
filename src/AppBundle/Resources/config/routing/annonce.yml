@@ -1,0 +1,64 @@
+annonce_index:
+    path:     /
+    defaults: { _controller: "AppBundle:Annonce:index" }
+    methods:  GET
+
+annonce_show:
+    path:     /{id}/show
+    defaults: { _controller: "AppBundle:Annonce:show" }
+    methods:  GET
+
+annonce_new:
+    path:     /new
+    defaults: { _controller: "AppBundle:Annonce:new" }
+    methods:  [GET, POST]
+
+annonce_new_entreprise:
+    path:     /newEntreprise
+    defaults: { _controller: "AppBundle:Annonce:newEntreprise" }
+    methods:  [GET, POST]
+
+annonce_edit:
+    path:     /{id}/edit
+    defaults: { _controller: "AppBundle:Annonce:edit" }
+    methods:  [GET, POST]
+
+annonce_edit_entreprises:
+    path:     /{id}/editEntreprise
+    defaults: { _controller: "AppBundle:Annonce:editEntreprise" }
+    methods:  [GET, POST]
+
+annonce_delete:
+    path:     /{id}/delete
+    defaults: { _controller: "AppBundle:Annonce:delete" }
+    methods:  [GET, POST]
+
+annonce_delete_entreprise:
+    path:     /{id}/deleteEntreprise
+    defaults: { _controller: "AppBundle:Annonce:deleteEntreprise" }
+    methods:  [GET, POST]
+
+annonce_index_admin:
+    path:     /indexAdmin
+    defaults: { _controller: "AppBundle:Annonce:indexAdmin" }
+    methods:  GET
+
+annonce_index_entreprises:
+    path:     /indexEentreprise
+    defaults: { _controller: "AppBundle:Annonce:indexEntreprise" }
+    methods:  GET
+
+annonce_new_admin:
+    path:     /newAdmin
+    defaults: { _controller: "AppBundle:Annonce:newAdmin" }
+    methods:  [GET, POST]
+
+annonce_edit_admin:
+    path:     /{id}/editAdmin
+    defaults: { _controller: "AppBundle:Annonce:editAmin" }
+    methods:  [GET, POST]
+
+annonce_delete_admin:
+    path:     /{id}/deleteAdmin
+    defaults: { _controller: "AppBundle:Annonce:deleteAdmin" }
+    methods:  DELETE

@@ -1,0 +1,136 @@
+{% extends 'principal.html.twig' %}
+
+{% block stylesheets %}
+    {{ parent() }}
+{% endblock %}
+
+{% block body %}
+    {% block header %}
+        {{ parent() }}
+    {% endblock %}
+    {% block content %}
+        <div class="container col-7 p-2" style="margin-top: 6%;">
+            <div class="card mb-4">
+                <div align="center" style="margin-bottom: 3%">
+                    <spane id="bienvenue"> Bienvenue dans la base de donnees des etudians de l'UNB</spane>
+                </div>
+                <div class="card-body">
+                    <div class="card-deck">
+                        <div class="card mb-4">
+                            <div class="card-body">
+                                <h4 class="card-title card-title_">Inscription</h4>
+                                <a href="#" data-toggle="modal" data-target="#inscription"><i class="fa-5x fa fa-user-circle-o" style="margin-left: 35%"></i></a>
+                            </div>
+                        </div>
+                        <div class="card mb-4">
+                            <div class="card-body">
+                                <h4 class="card-title card-title_">Connexion</h4>
+                                <a href="{{ path('fos_user_security_login') }}"><i class="fa-5x fa fa-user-circle-o" style="margin-left: 35%"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                </div>
+            </div>
+        <div class="modal fade" id="inscription" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title" id="exampleModalLabel" style="text-align: center">Inscription</h4>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body px-lg-5 pt-0">
+                            <div class="md-form">
+                                <input type="text" class="form-control" id="matricule" name="matricul">
+                                <label for="matricule">Numero Matucule</label>
+                            </div>
+                        <div class="dsp" style="display: none">
+                            <label for="nom">Nom</label>
+                            <input type="text" class="form-control disabled" id="nom" >
+                        </div>
+                        <div class="dsp" style="display: none">
+                            <label for="prenom">Prenom</label>
+                            <input type="text" class="form-control disabled" id="prenom" >
+                        </div>
+                            {{ form_start(form , {'attr':{'id':'form_compte'}}) }}
+                            <div class="" style="display: none">
+                                {{ form_label(form.matricule) }}
+                                {{ form_widget(form.matricule) }}
+                            </div>
+                            <div class="dsp" style="display: none">
+                                {{ form_label(form.email) }}
+                                {{ form_widget(form.email) }}
+                            </div>
+                            <div class="dsp" style="display: none">
+                                {{ form_label(form.username) }}
+                                {{ form_widget(form.username) }}
+                            </div>
+                            <div class="dsp" style="display: none">
+                                {{ form_widget(form.plainPassword) }}
+                            </div>
+
+                    <div class="modal-footer dsp" style="display: none">
+                        <button type="button" class="btn btn-outline-blue-grey btn btn-light-blue btn-sm" data-dismiss="modal">Fermer</button>
+                        <button type="submit" class="btn btn-outline-success btn btn-light-green btn-sm">Enregistrer</button>
+                    </div>
+                    {{ form_end(form) }}
+                    </div>
+                </div>
+            </div>
+        </div>
+        </div>
+    {% endblock %}
+{% endblock %}
+{% block javascripts %}
+    {{ parent() }}
+    <script>
+        $(function () {
+            verifMatricule();
+            $('#form_compte').on('submit', function (e) {
+                e.preventDefault();
+                $.ajax({
+                    type:'POST',
+                    data:$(this).serialize(),
+                    dataType: 'JSON',
+                    url: Routing.generate('user_compte')
+                }).done(function (data) {
+                    if(data === 'ok')
+                    {
+                        alert('Votre compte a ete cree. Connectez vous');
+                        $(location).attr('href',Routing.generate('fos_user_security'));
+                    }else if(data === 'Nok'){
+                        alert('Impossible de cree le compte');
+                    }
+                    else if(data === 'Compte'){
+                        alert('Vous avez deja un compte. Connectez vous');
+                        $(location).attr('href',Routing.generate('fos_user_security'));
+                    }
+                })
+            });
+            function verifMatricule() {
+                $(':input[id="matricule"]').change(function(){
+                    if($(this).val().length === 4)
+                    $.ajax({
+                        type:'GET',
+                        data:{'matricule':$(this).val()},
+                        dataType: 'JSON',
+                        url: Routing.generate('etudiant_matricule')
+                    }).done(function (data) {
+                        var donnees = JSON.parse(data);
+                        if(donnees)
+                        {
+                            $(':input[id="nom"]').val(donnees[0].nom);
+                            $(':input[id="prenom"]').val(donnees[0].prenom);
+                            $('#app_user_registration_matricule').val($(':input[id="matricule"]').val());
+                            $('.dsp').show();
+                        }if(donnees[0].nom == '') alert('Le matricule n\'est pas reconnu');
+
+                    })
+                });
+
+            }
+        })
+    </script>
+{% endblock %}

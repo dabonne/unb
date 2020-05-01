@@ -1,0 +1,154 @@
+{% extends 'entrepriseIndex.html.twig' %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <style>
+        main{
+            padding-left: 0;
+        }
+    </style>
+{% endblock %}
+
+{% block body %}
+    {% block header %}
+        {{ parent() }}
+    {% endblock %}
+    {% block content %}
+        {{ parent() }}
+        <main class="pt-5 mx-lg-6" >
+            <div class="container-fluid mt-5">
+                <div class="card card-cascade narrower mb-4">
+                    <div class="view view-cascade py-3 gradient-card-header info-color-dark mx-4 d-flex justify-content-between align-items-center">
+                        <a href="" class="white-text mx-3">Liste des etablissement de l'Unuversite Nazi Boni</a>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table id="table_id" class="table text-nowrap">
+                                <thead style="background-color: lightseagreen;">
+                                <tr>
+                                    <th style="color: white">Nom</th>
+                                    <th style="color: white">Abreviation</th>
+                                    <th style="color: white">Telephone</th>
+                                    <th style="color: white">Email</th>
+                                    <th style="color: white">Site Internet</th>
+                                    <th style="color: white">Diplomes</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                {% for etablissement in etablissements %}
+                                    <tr>
+                                        <td>{{ etablissement.nom }}</td>
+                                        <td>{{ etablissement.abreviation }}</td>
+                                        <td>{{ etablissement.telephone }}</td>
+                                        <td>{{ etablissement.email }}</td>
+                                        <td><a href="http://{{ etablissement.siteInternet }}">{{ etablissement.siteInternet }}</a></td>
+                                        <td id="{{ etablissement.id }}">
+                                            <ul class="list-unstyled list-group list-group-horizontal">
+                                                <li class="">
+                                                    <a class="btn btn-sm btn-success ml-2 px-2" href="{{ path('entreprise_etudiants_etablissement', {'id': etablissement.id}) }}"><i class="fas fa-users" ></i>
+                                                        Etudiants
+                                                    </a>
+                                                </li>
+                                                <li class="">
+                                                    <a class="btn btn-sm btn-success ml-2 px-2" href="{{ path('etablissement_show', { 'id': etablissement.id }) }}"><i class="fas fa-graduation-cap" ></i>
+                                                        Formations
+                                                    </a>
+                                                </li>
+                                            </ul>
+
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                        <hr class="my-0">
+                    </div>
+                </div>
+            </div>
+        </main>
+    {% endblock %}
+{% endblock %}
+{% block javascripts %}
+    {{ parent() }}
+    <script>
+        $(document).ready(function () {
+
+            $('#table_id').DataTable({
+                "language": {
+                    "url": "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/French.json",
+                    scrollY: 400
+                }
+            });
+            
+            var etudiant = $('#idEtudiant').text();
+            $('.datepiker').datepicker({
+                uiLibrary: 'bootstrap4'
+            });
+            $('#form_diplome').on('submit', function (e) {
+                e.preventDefault();
+                $.ajax({
+                    type:'POST',
+                    data:$(this).serialize(),
+                    dataType: 'JSON',
+                    url: Routing.generate('diplome_etudiant')
+                }).done(function (data) {
+                    if(data === 'ok')
+                    {
+                        alert('Diplome ajouter avec succes');
+                        $(location).attr('href',Routing.generate('etudiant_show',{'id':etudiant}));
+                    }else if(data === 'Nok') alert('Impossible d\'ajouter le diplome');
+                })
+            });
+
+            $('#form_experience').on('submit', function (e) {
+                e.preventDefault();
+                $.ajax({
+                    type:'POST',
+                    data:$(this).serialize(),
+                    dataType: 'JSON',
+                    url: Routing.generate('entreprise_etudiant')
+                }).done(function (data) {
+                    if(data === 'ok')
+                    {
+                        alert('Entreprise ajouter avec succes');
+                        $(location).attr('href',Routing.generate('etudiant_show',{'id':etudiant}));
+                    }else if(data === 'Nok') alert('Impossible d\'ajouter l\'entreprise');
+                })
+            });
+
+            $('#form_photo').on('submit', function (e) {
+                e.preventDefault();
+                $.ajax({
+                    type:'POST',
+                    data:$(this).serialize(),
+                    dataType: 'JSON',
+                    url: Routing.generate('etudiant_addPhoto')
+                }).done(function (data) {
+                    if(data === 'ok')
+                    {
+                        alert('Photo modifier');
+                    }else if(data === 'Nok') alert('Impossible de modifier la photo');
+                })
+            });
+
+            $('#form_certificat').on('submit', function (e) {
+                e.preventDefault();
+                $.ajax({
+                    type:'POST',
+                    data:$(this).serialize(),
+                    dataType: 'JSON',
+                    url: Routing.generate('certificat_etudiant')
+                }).done(function (data) {
+                    if(data === 'ok')
+                    {
+                        alert('Certificat ajouter avec succes');
+                        $(location).attr('href',Routing.generate('etudiant_show',{'id':etudiant}));
+                    }
+                })
+            });
+        });
+    </script>
+{% endblock %}
+
+

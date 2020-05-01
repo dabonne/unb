@@ -1,0 +1,71 @@
+{% extends 'principal.html.twig' %}
+
+{% block stylesheets %}
+    {{ parent() }}
+{% endblock %}
+
+{% block body %}
+    {% block header %}
+        {{ parent() }}
+    {% endblock %}
+    {% block content %}
+        <div class="container-fluid">
+        <h1>Etudiants list</h1>
+
+        <table class="table-responsive-lg table">
+            <thead>
+            <tr>
+                <th>Id</th>
+                <th>Matricule</th>
+                <th>Nom</th>
+                <th>Prenom</th>
+                <th>Promotion</th>
+                <th>Telephone</th>
+                <th>Email</th>
+                <th>Actions</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for etudiant in etudiants %}
+                <tr>
+                    <td><a href="{{ path('etudiant_show', { 'id': etudiant.id }) }}">{{ etudiant.id }}</a></td>
+                    <td>{{ etudiant.matricule }}</td>
+                    <td>{{ etudiant.nom }}</td>
+                    <td>{{ etudiant.prenom }}</td>
+                    <td>{{ etudiant.promotion | date('Y')}}</td>
+                    <td>{{ etudiant.telephone }}</td>
+                    <td>{{ etudiant.email }}</td>
+                    <td>
+                        <ul class="list-unstyled">
+                            <li class="list-inline ">
+                                <a href="{{ path('etudiant_show', { 'id': etudiant.id }) }}">show</a>
+                            </li>
+                            <li class="list-inline ">
+                                <a href="{{ path('etudiant_edit', { 'id': etudiant.id }) }}">edit</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+
+        <ul>
+            <li>
+                <a href="{{ path('etudiant_new') }}">Create a new etudiant</a>
+            </li>
+        </ul>
+        </div>
+    {% endblock %}
+
+    {% block footer %}
+    {% endblock %}
+{% endblock %}
+{% block javascripts %}
+    {{ parent() }}
+    <script>
+        $(function () {
+
+        })
+    </script>
+{% endblock %}

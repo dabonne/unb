@@ -1,0 +1,72 @@
+{% extends 'index.html.twig' %}
+
+{% block stylesheets %}
+    {{ parent() }}
+{% endblock %}
+
+{% block body %}
+    {% block header %}
+        {{ parent() }}
+    {% endblock %}
+    {% block content %}
+        {{ parent() }}
+        <main class="pt-5 mx-lg-6">
+            <div class="container-fluid mt-5">
+                <div class="card card-cascade narrower mb-4">
+                    <div class="view view-cascade py-3 gradient-card-header info-color-dark mx-4 d-flex justify-content-between align-items-center">
+                        <a href="" class="white-text mx-3">Mes Certificats et autres Diplomes
+                        </a>
+                        <a href="{{ path('certificat_index') }}" class="btn btn-sm btn-info ">
+                            <i class="fas fa-list"></i> Voire la liste
+                        </a>
+                        <a href="{{ path('certificat_new') }}" class="btn btn-sm btn-info ml-2">
+                            <i class="fas fa-plus-circle"></i> Ajoueter
+                        </a>
+                    </div>
+                    <div class="card-body" align="center">
+                        <div class="card col-md-10">
+                            <h5 class="card-header info-color white-text text-center py-4">
+                                <strong>Modifier le Certificat ou  Diplome</strong>
+                            </h5>
+                            <div class="card-body px-lg-5 pt-0 mb-1">
+                                {{ form_start(edit_form) }}
+                                <div class="row">
+                                    <div class="md-form col-md-6">
+                                        {{ form_widget(edit_form.numeroCertificat) }}
+                                        {{ form_label(edit_form.numeroCertificat) }}
+                                    </div>
+                                    <div class="md-form col-md-6">
+                                        {{ form_widget(edit_form.intitule) }}
+                                        {{ form_label(edit_form.intitule) }}
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="md-form col-md-6">
+                                        {{ form_widget(edit_form.abreviation) }}
+                                        {{ form_label(edit_form.abreviation) }}
+                                    </div>
+                                    <div class="md-form col-md-6">
+                                        {{ form_widget(edit_form.fondation) }}
+                                        {{ form_label(edit_form.fondation) }}
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="md-form col-md-6">
+                                        {{ form_widget(edit_form.dateDelivrance) }}
+                                        {{ form_label(edit_form.dateDelivrance) }}
+                                    </div>
+                                </div>
+                                <button class="btn btn-outline-info btn-rounded btn-block my-4 waves-effect z-depth-0" type="submit">Enregistrer</button>
+                                {{ form_end(edit_form) }}
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </main>
+    {% endblock %}
+{% endblock %}
+{% block javascripts %}
+    {{ parent() }}
+{% endblock %}

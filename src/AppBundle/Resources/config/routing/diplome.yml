@@ -1,0 +1,34 @@
+diplome_index:
+    path:     /
+    defaults: { _controller: "AppBundle:Diplome:index" }
+    methods:  GET
+
+diplome_show:
+    path:     /{id}/show
+    defaults: { _controller: "AppBundle:Diplome:show" }
+    methods:  GET
+
+diplome_verif:
+    path:     /verif
+    defaults: { _controller: "AppBundle:Diplome:verif" }
+    methods:  GET
+
+diplome_new:
+    path:     /new
+    defaults: { _controller: "AppBundle:Diplome:new" }
+    methods:  [GET, POST]
+
+diplome_etudiant:
+    path:     /EtudiantDiplome
+    defaults: { _controller: "AppBundle:Diplome:newEtudiantDiplome" }
+    methods:  POST
+
+diplome_edit:
+    path:     /{id}/edit
+    defaults: { _controller: "AppBundle:Diplome:edit" }
+    methods:  [GET, POST]
+
+diplome_delete:
+    path:     /{id}/delete
+    defaults: { _controller: "AppBundle:Diplome:delete" }
+    methods:  DELETE

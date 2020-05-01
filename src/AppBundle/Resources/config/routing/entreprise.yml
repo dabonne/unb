@@ -1,0 +1,44 @@
+entreprise_index:
+    path:     /
+    defaults: { _controller: "AppBundle:Entreprise:index" }
+    methods:  GET
+
+entreprise_etudiant:
+    path:     /EtudiantEntreprise
+    defaults: { _controller: "AppBundle:Entreprise:newEtudiantEntreprise" }
+    methods:  POST
+
+entreprise_show:
+    path:     /{id}/show
+    defaults: { _controller: "AppBundle:Entreprise:show" }
+    methods:  GET
+
+entreprise_new:
+    path:     /new
+    defaults: { _controller: "AppBundle:Entreprise:new" }
+    methods:  [GET, POST]
+
+entreprise_edit:
+    path:     /{id}/edit
+    defaults: { _controller: "AppBundle:Entreprise:edit" }
+    methods:  [GET, POST]
+
+entreprise_delete:
+    path:     /{id}/delete
+    defaults: { _controller: "AppBundle:Entreprise:delete" }
+    methods:  [GET, POST]
+
+entreprise_principal:
+    path:     /principal
+    defaults: { _controller: "AppBundle:Entreprise:principal" }
+    methods:  GET
+
+entreprise_diplomes:
+    path:     /{id}/diplomes
+    defaults: { _controller: "AppBundle:Entreprise:diplomes" }
+    methods:  GET
+
+entreprise_etudiants_etablissement:
+    path:     /{id}/etudiant
+    defaults: { _controller: "AppBundle:Entreprise:listEtudiant" }
+    methods:  GET

@@ -1,0 +1,140 @@
+{% extends 'base.html.twig' %}
+{% block stylesheets %}
+    {{ parent() }}
+{% endblock %}
+
+{% block body %}
+    {% block header %}
+<!--Main Navigation-->
+<header>
+
+  <!-- Navbar -->
+  <nav class="navbar fixed-top navbar-expand-lg navbar-light white scrolling-navbar">
+    <div class="container-fluid">
+
+      <!-- Collapse -->
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+              aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <!-- Links -->
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+
+        <!-- Left -->
+        <ul class="navbar-nav mr-auto">
+          <li class="nav-item">
+            <a class="nav-link waves-effect" href="{{ path('diplome_index') }}"><span style="color: orange">Diplomes </span><i class="material-icons mdl-badge mdl-badge--overlap fas fa-graduation-cap " data-badge="{% if quantD is not null %}{{  quantD.quantDiplome }} {% else %}0{% endif %}"></i>
+              <span class="sr-only">(current)</span>
+            </a>
+          </li>
+
+          <li class="nav-item">
+            <a class="nav-link waves-effect" href="{{ path('certificat_index') }}"><span style="color: orange">Certificats </span><i class="material-icons mdl-badge mdl-badge--overlap fas fa-graduation-cap " data-badge="{% if quantC is not null %}{{  quantC.quantCertificat }} {% else %}0{% endif %}" ></i>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link waves-effect" href="{{ path('entreprise_index') }}"><span style="color: orange">Experiences </span><i class="material-icons mdl-badge mdl-badge--overlap fas fa-clipboard-check" data-badge=""></i></a>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link waves-effect" href="{{ path('annonce_index') }}"><span style="color: orange">Annonces</span>
+              <i class="material-icons fas fa-envelope mdl-badge mdl-badge--overlap" data-badge="#"></i>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link waves-effect" href="{{ path('etudiant_show_etudiant',{'id':etudiant.id}) }}">
+              <span style="color: orange">Presentation</span>
+              <i class="material-icons fas fa-user-tie">
+              </i>
+            </a>
+          </li>
+        </ul>
+        <ul class="navbar-nav nav-flex-icons dropdown">
+          <li class="nav-item" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
+            <a  class="nav-link border border-light rounded waves-effect">
+              <span style="color: orange"><i class="fas fa-power-off"></i>
+                  Infos du Compte
+              </span>
+            </a>
+          </li>
+          <ul class="dropdown-menu">
+            <li>
+              <a class="nav-link waves-effect dropdown-item" href="{{ path('fos_user_security_logout') }}">
+                <span style="color: orange"><i class="fas fa-power-off"></i>
+                 {{ 'layout.logout'|trans({}, 'FOSUserBundle') }}
+                </span>
+              </a>
+              <a class="nav-link waves-effect dropdown-item" href="{{ path('utilisateur_show',{'id':user.id}) }}">
+                <i class="material-icons fas fa-user"></i>
+                <span style="color: orange">Mon Compte</span>
+              </a>
+              <a class="nav-link waves-effect dropdown-item" href="{{ path('etudiant_edit',{'id':etudiant.id}) }}">
+                <i class="fas fa-user-cog material-icons"></i>
+                <span style="color: orange">Modifier Infos</span>
+              </a>
+            </li>
+          </ul>
+          </ul>
+        </div>
+      </div>
+
+    </div>
+  </nav>
+  <!-- Navbar -->
+
+  <!-- Sidebar -->
+  <div class="sidebar-fixed position-fixed">
+
+    <a class="">
+        {% if etudiant.image is not null %}
+          <img src="{{ asset(vich_uploader_asset(etudiant, 'imageFile')) }}" alt="{{ etudiant.matricule }}" height="100" width="100"  class="" style="border-radius: 50%;margin-left: 15%"/>
+        {% else %}<img src="{{ absolute_url(asset('images/images.png'))}}" alt="Avatar du conpte" height="100" width="100"  class="" style="border-radius: 50%; margin-left: 15%" />
+        {% endif %}
+    </a>
+    <div class="list-group list-group-flush">
+      <a href="#" class="list-group-item active waves-effect">
+        <i class="fas fa-chart-pie mr-3"></i>UNB-LIVE-REZO
+      </a>
+      <a class="list-group-item list-group-item-action waves-effect" href="{{ path('utilisateur_show',{'id':user.id}) }}">
+        <i class="material-icons fas fa-user"></i>
+        Mon Compte
+      </a>
+      <a class="list-group-item list-group-item-action waves-effect" href="{{ path('diplome_index') }}">
+        <i class="material-icons fas fa-graduation-cap"></i>Diplomes
+      </a>
+      <a class="list-group-item list-group-item-action waves-effect" href="{{ path('certificat_index') }}">
+        <i class="material-icons  fas fa-graduation-cap ">
+        </i>Certificats
+      </a>
+      <a class="list-group-item list-group-item-action waves-effect" href="{{ path('entreprise_index') }}">
+        <i class="material-icons fas fa-clipboard-check">
+        </i> Experiences
+      </a>
+      <a class="list-group-item list-group-item-action waves-effect" href="{{ path('annonce_index') }}">
+        <i class="material-icons fas fa-envelope">
+        </i> Annonces
+      </a>
+      <a class="list-group-item list-group-item-action waves-effect" href="{{ path('etudiant_edit',{'id':etudiant.id}) }}">
+        <i class="fas fa-user-cog material-icons"></i>
+        </i> Modifier mes Infos
+      </a>
+      <a class="list-group-item list-group-item-action waves-effect" href="{{ path('etudiant_show_etudiant',{'id':etudiant.id}) }}">
+        <i class="material-icons fas fa-user-tie">
+        </i> Ma presentation
+      </a>
+    </div>
+
+  </div>
+  <!-- Sidebar -->
+</header>
+    {% endblock %}
+  <!--Main Navigation-->
+  {% block main %}
+
+  {% endblock %}
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+{% endblock %}

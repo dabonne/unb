@@ -1,0 +1,40 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Nature</h1>
+
+    <table>
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ nature.id }}</td>
+            </tr>
+            <tr>
+                <th>Intitule</th>
+                <td>{{ nature.intitule }}</td>
+            </tr>
+            <tr>
+                <th>Abreviation</th>
+                <td>{{ nature.abreviation }}</td>
+            </tr>
+            <tr>
+                <th>Datecreation</th>
+                <td>{% if nature.dateCreation %}{{ nature.dateCreation|date('Y-m-d') }}{% endif %}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('nature_index') }}">Back to the list</a>
+        </li>
+        <li>
+            <a href="{{ path('nature_edit', { 'id': nature.id }) }}">Edit</a>
+        </li>
+        <li>
+            {{ form_start(delete_form) }}
+                <input type="submit" value="Delete">
+            {{ form_end(delete_form) }}
+        </li>
+    </ul>
+{% endblock %}

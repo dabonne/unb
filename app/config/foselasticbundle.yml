@@ -1,0 +1,22 @@
+fos_elastica:
+   clients:
+       default:
+           host: %fos_elastica.host%
+           port: %fos_elastica.port%
+   indexes:
+       search:
+           finder: ~
+           client: default
+           types:
+               diplome:
+                   mappings:
+                       id:
+                           type: integer
+                       dateDelivrance: ~
+                       numeroDiplome: ~
+                   persistence:
+                       driver: orm
+                       model: AppBundle\Entity\Diplome
+                       finder: ~
+                       provider: ~
+                       listener: ~

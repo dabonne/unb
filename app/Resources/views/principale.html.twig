@@ -1,0 +1,65 @@
+{% extends 'base.html.twig' %}
+{% block stylesheets %}
+    {{ parent() }}
+{% endblock %}
+
+{% block body %}
+    {% block header %}
+        <!--Main Navigation-->
+        <header>
+
+            <!-- Navbar -->
+            <nav class="navbar fixed-top navbar-expand-lg navbar-light white scrolling-navbar">
+                <div class="container-fluid">
+
+                    <!-- Collapse -->
+                    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+                            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+
+                    <!-- Links -->
+                    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+
+                        <!-- Left -->
+                        <ul class="navbar-nav mr-auto">
+                            <li class="nav-item">
+                                <a class="nav-link waves-effect" href="{{ path('admin') }}"><span style="color: orange">Gestion</span>
+                                    <i class="fas fa-arrow-circle-left"></i>
+                                </a>
+                            </li>
+                        </ul>
+
+                        <ul class="navbar-nav mr-auto">
+                            <li class="nav-item">
+                                <a class="nav-link waves-effect" href="{{ path('annonce_index') }}"><span style="color: orange">Annonces</span>
+                                    <i class="fas fa-envelope " ></i>
+                                </a>
+                            </li>
+                        </ul>
+
+                        <!-- Right -->
+                        <ul class="navbar-nav nav-flex-icons">
+                            <li class="nav-item">
+                                <a  class="nav-link border border-light rounded waves-effect"
+                                    href="{{ path('fos_user_security_logout') }}" ><span style="color: orange"><i class="fas fa-power-off"></i> {{ 'layout.logout'|trans({}, 'FOSUserBundle') }}</span>
+                                </a>
+                            </li>
+                        </ul>
+
+                    </div>
+
+                </div>
+            </nav>
+            <!-- Navbar -->
+        </header>
+    {% endblock %}
+    <!--Main Navigation-->
+    {% block main %}
+
+    {% endblock %}
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+{% endblock %}

@@ -1,0 +1,26 @@
+{% trans_default_domain 'FOSUserBundle' %}
+<div class="wrapper">
+    <div class="form-signin">
+    {{ form_start(form, { 'action': path('fos_user_resetting_reset', {'token': token}), 'attr': { 'class': 'fos_user_resetting_reset' } }) }}
+        <div class="login-logo" align="center">
+            <img src="{{ absolute_url(asset('images/login_logo.jpg'))}}" id="image-logo">
+            <h3>Changer de mot de passe !</h3>
+        </div>
+    <div class="md-form">
+        {{ form_label(form.plainPassword.first) }}
+        {{ form_widget(form.plainPassword.first)}}
+        {{ form_errors(form.plainPassword.first) }}
+    </div>
+    <div class="md-form">
+        {{ form_label(form.plainPassword.second) }}
+        {{ form_widget(form.plainPassword.second) }}
+        {{ form_errors(form.plainPassword.second) }}
+    </div>
+        <div align="center">
+            <input type="submit" class="btn btn-primary btn_ btn-sm text-uppercase" value="{{ 'resetting.reset.submit'|trans }}" /><br/>
+            <a href="{{ path('fos_user_security_login') }}">Connexion</a>
+        </div>
+    {{ form_end(form) }}
+    </div>
+</div>
+

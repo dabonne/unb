@@ -1,0 +1,137 @@
+{% extends 'index.html.twig' %}
+
+{% block stylesheets %}
+    {{ parent() }}
+{% endblock %}
+
+{% block body %}
+    {% block header %}
+        {{ parent() }}
+    {% endblock %}
+    {% block main %}
+
+        <main class="pt-5 mx-lg-6">
+            <div class="container-fluid mt-5">
+                <div class="card card-cascade narrower mb-4">
+                    <div class="view view-cascade py-3 gradient-card-header info-color-dark mx-4 d-flex justify-content-between align-items-center">
+                        <a href="" class="white-text mx-3">Mes Certificats et autres Diplomes</a>
+                        <a href="{{ path('certificat_index') }}" class="btn btn-sm btn-info ">
+                            <i class="fas fa-list"></i> Voire la liste
+                        </a>
+                        <a href="{{ path('certificat_new') }}" class="btn btn-sm btn-info ml-2">
+                            <i class="fas fa-plus-circle"></i> Ajoueter
+                        </a>
+                    </div>
+                    <div class="card-body">
+                        {% block subPaneau %}
+                        {% endblock %}
+
+                        {% block content %}
+                            <div class="row wow fadeIn">
+                                {% for certificat in certificats %}
+                                    <div class="col-md-6 mb-1">
+                                        <div class="card mb-1">
+                                            <div class="card-header text-center view view-cascade py-3 gradient-card-header info-color-dark mx-4 d-flex justify-content-between align-items-center">
+                                                <h2 class="mdl-card__title-text" style="color: white">#{{ certificat.numeroCertificat |upper}} {{ certificat.abreviation |upper}}</h2>
+                                                <a href="{{ path('certificat_edit',{'id': certificat.id}) }}" class="btn btn-sm btn-info ml-2">
+                                                    <i class="fas fa-edit"></i> Modifier
+                                                </a>
+                                            </div>
+                                            <div class="card-body">
+                                                <div class="row" style="margin: 0 1% 0 1%">
+                                                    <div class="">
+                                                        <div class="mdl-card__supporting-text">
+                                                            <h4 style="color: #00a65a;"><i class="fa fa-graduation-cap"></i> {{ certificat.intitule }}</h4>
+                                                            <h6 style="color: #00a65a;"><i class="fa fa-anchor"></i> {{ certificat.fondation }}</h6>
+                                                            <h6><i class="fa fa-calendar"></i> {{ certificat.dateDelivrance| date('d-m-Y') }}</h6>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                {% endfor %}
+                            </div>
+                        {% endblock %}
+                    </div>
+                </div>
+            </div>
+        </main>
+    {% endblock %}
+
+{% endblock %}
+{% block javascripts %}
+    {{ parent() }}
+    <script>
+        $(document).ready(function () {
+            var etudiant = $('#idEtudiant').text();
+            $('.datepiker').datepicker({
+                uiLibrary: 'bootstrap4'
+            });
+            $('#form_diplome').on('submit', function (e) {
+                e.preventDefault();
+                $.ajax({
+                    type:'POST',
+                    data:$(this).serialize(),
+                    dataType: 'JSON',
+                    url: Routing.generate('diplome_etudiant')
+                }).done(function (data) {
+                    if(data === 'ok')
+                    {
+                        alert('Diplome ajouter avec succes');
+                        $(location).attr('href',Routing.generate('etudiant_show',{'id':etudiant}));
+                    }else if(data === 'Nok') alert('Impossible d\'ajouter le diplome');
+                })
+            });
+
+            $('#form_experience').on('submit', function (e) {
+                e.preventDefault();
+                $.ajax({
+                    type:'POST',
+                    data:$(this).serialize(),
+                    dataType: 'JSON',
+                    url: Routing.generate('entreprise_etudiant')
+                }).done(function (data) {
+                    if(data === 'ok')
+                    {
+                        alert('Entreprise ajouter avec succes');
+                        $(location).attr('href',Routing.generate('etudiant_show',{'id':etudiant}));
+                    }else if(data === 'Nok') alert('Impossible d\'ajouter l\'entreprise');
+                })
+            });
+
+            $('#form_photo').on('submit', function (e) {
+                e.preventDefault();
+                $.ajax({
+                    type:'POST',
+                    data:$(this).serialize(),
+                    dataType: 'JSON',
+                    url: Routing.generate('etudiant_addPhoto')
+                }).done(function (data) {
+                    if(data === 'ok')
+                    {
+                        alert('Photo modifier');
+                    }else if(data === 'Nok') alert('Impossible de modifier la photo');
+                })
+            });
+
+            $('#form_certificat').on('submit', function (e) {
+                e.preventDefault();
+                $.ajax({
+                    type:'POST',
+                    data:$(this).serialize(),
+                    dataType: 'JSON',
+                    url: Routing.generate('certificat_etudiant')
+                }).done(function (data) {
+                    if(data === 'ok')
+                    {
+                        alert('Certificat ajouter avec succes');
+                        $(location).attr('href',Routing.generate('etudiant_show',{'id':etudiant}));
+                    }
+                })
+            });
+        });
+    </script>
+{% endblock %}
+
+

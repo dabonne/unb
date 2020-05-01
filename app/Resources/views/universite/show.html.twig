@@ -1,0 +1,48 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Universite</h1>
+
+    <table>
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ universite.id }}</td>
+            </tr>
+            <tr>
+                <th>Nom</th>
+                <td>{{ universite.nom }}</td>
+            </tr>
+            <tr>
+                <th>Email</th>
+                <td>{{ universite.email }}</td>
+            </tr>
+            <tr>
+                <th>Codepostal</th>
+                <td>{{ universite.codePostal }}</td>
+            </tr>
+            <tr>
+                <th>Telephone</th>
+                <td>{{ universite.telephone }}</td>
+            </tr>
+            <tr>
+                <th>Siteinternet</th>
+                <td>{{ universite.siteInternet }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('universite_index') }}">Back to the list</a>
+        </li>
+        <li>
+            <a href="{{ path('universite_edit', { 'id': universite.id }) }}">Edit</a>
+        </li>
+        <li>
+            {{ form_start(delete_form) }}
+                <input type="submit" value="Delete">
+            {{ form_end(delete_form) }}
+        </li>
+    </ul>
+{% endblock %}

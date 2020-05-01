@@ -1,0 +1,18 @@
+{% extends "::base.html.twig" %}
+{% block stylesheets %}
+    {{ parent() }}
+{% endblock %}
+
+{% block fos_user_content %}
+<p id="{{ app.user.role }}"></p>
+{% endblock fos_user_content %}
+{% block javascripts %}
+    {{ parent() }}
+    <script>
+        $(document).ready(function () {
+
+        })
+    </script>
+
+
+{% endblock %}

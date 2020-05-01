@@ -1,0 +1,77 @@
+{% extends 'entrepriseIndex.html.twig' %}
+
+{% block stylesheets %}
+    {{ parent() }}
+{% endblock %}
+
+{% block body %}
+    {% block header %}
+        {{ parent() }}
+    {% endblock %}
+    {% block content %}
+        {{ parent() }}
+        <style>
+            .demo-card-wide.mdl-card:hover {
+                box-shadow:0 9px 46px 8px rgba(0,0,0,.14),0 11px 15px -7px rgba(0,0,0,.12),0 24px 38px 3px rgba(0,0,0,.2)
+            }
+            .demo-card-wide.mdl-card {
+                width: 520px;
+                min-height: 100px;
+                height: 170px;
+                transition: box-shadow .5s;
+            }
+            .demo-card-wide > .mdl-card__title {
+                color: #fff;
+            }
+            .demo-card-wide > .mdl-card__menu {
+                color: #fff;
+            }
+            a{
+                text-decoration: none;
+            }
+        </style>
+
+<main class="mdl-layout__content ">
+    <div>
+        <div id="description" align="center">
+            <h2>{{ etablissement.nom }}</h2>
+            <h4>[ {{ etablissement.abreviation }} ]</h4>
+            <h6><i class="fas fa-phone"></i> {{ etablissement.telephone }} | <i class="fas fa-envelope-open-text"></i> {{ etablissement.email }} | <a href="http://university.gansbeogo.com/index.php/component/sppagebuilder/67-unb-esi#"> <i class="fab fa-cloudversify"></i> {{ etablissement.siteInternet }}</a></h6>
+        </div>
+        <div id="contenu"  class="mdl-grid demo-content">
+            <div class="row" style="margin: 0 1% 1% 1%;width: 100%">
+            </div>
+            {% for formation in formations %}
+                <div class="row" style="margin: 1% 1% 0 1%;">
+                    <div class="demo-card-wide mdl-card mdl-shadow--2dp">
+                        <div class="mdl-card__title">
+                            <h2 class="mdl-card__title-text" style="color: #ff4081;">{{ formation.abreviation }} </h2>
+                        </div>
+                        <div class="mdl-card__supporting-text" style="padding-top: 0;">
+                            <h5><i class="fas fa-graduation-cap" style="color: #00acd6"></i> <span style="color: #00a65a;">{{ formation.intitule }}</span></h5>
+                            <h6><i class="fas fa-calendar"></i> {{ formation.dateCreation |date('d-m-Y') }} | </h6>
+                        </div>
+                        <div class="mdl-card__menu" style="border-left: 2px green solid">
+                            {% set nombre = 0 %}
+                            {% for diplome in formation.diplomes %}
+                            {% set nombre = nombre + 1  %}
+                            {% endfor %}
+                            <a class="" href="{{ path('entreprise_diplomes', {'id': formation.id}) }}" style="text-decoration: none;">
+                                <i class="fas fa-user-graduate mdl-badge mdl-badge--overlap" style="color: #388e3c;" ></i><i class="mdl-badge mdl-badge--overlap" data-badge="{{ nombre }}" style="text-decoration: none"></i> diplomés
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+            <div class=" navigation" align="center" style="margin: 2% 0 2% 35%">
+                {{ knp_pagination_render(formations) }}
+            </div>
+        </div>
+        </div>
+    </div>
+</main>
+    {% endblock %}
+{% endblock %}
+{% block javascripts %}
+    {{ parent() }}
+{% endblock %}

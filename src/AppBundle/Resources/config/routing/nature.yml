@@ -1,0 +1,24 @@
+nature_index:
+    path:     /
+    defaults: { _controller: "AppBundle:Nature:index" }
+    methods:  GET
+
+nature_show:
+    path:     /{id}/show
+    defaults: { _controller: "AppBundle:Nature:show" }
+    methods:  GET
+
+nature_new:
+    path:     /new
+    defaults: { _controller: "AppBundle:Nature:new" }
+    methods:  [GET, POST]
+
+nature_edit:
+    path:     /{id}/edit
+    defaults: { _controller: "AppBundle:Nature:edit" }
+    methods:  [GET, POST]
+
+nature_delete:
+    path:     /{id}/delete
+    defaults: { _controller: "AppBundle:Nature:delete" }
+    methods:  DELETE

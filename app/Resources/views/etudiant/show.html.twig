@@ -1,0 +1,193 @@
+{% extends 'entrepriseIndex.html.twig' %}
+
+{% block stylesheets %}
+    {{ parent() }}
+{% endblock %}
+
+{% block body %}
+    {% block header %}
+        {{ parent() }}
+    {% endblock %}
+    {% block content %}
+        {{ parent() }}
+<style>
+    main{
+        padding: 0;
+    }
+    .accordion.accordion-3 {
+        border-radius: 3px; }
+    .accordion.accordion-3 p {
+        font-size: 1rem; }
+    .accordion.accordion-3 .fa.fa-angle-down {
+        margin-top: -10px; }
+
+    .accordion .animated-icon1 span {
+        background: #F44336;
+    }
+    #principal{
+
+    }
+</style>
+        <main class="pt-5 mx-lg-6">
+            <div id="principal" class="container-fluid m-5" align="center">
+                <!--Accordion wrapper-->
+                <div class="accordion md-accordion accordion-3 z-depth-1-half card" style="width: 80%"  id="accordionEx194" role="tablist"
+                     aria-multiselectable="true">
+
+                    <ul class="list-unstyled d-flex justify-content-center pt-5 red-text">
+                        {% if etudiant.image is not null %}
+                            <img src="{{ asset(vich_uploader_asset(etudiant, 'imageFile')) }}" alt="{{ etudiant.matricule }}" height="180" width="180"  class="radius" style="border-radius: 50%;"/>
+                        {% else %}<img src="{{ absolute_url(asset('images/images.png'))}}" alt="Avatar du conpte" height="100" width="110"  class="" style="border-radius: 2%; margin-left: 15%" />
+                        {% endif %}
+                    </ul>
+
+                    <h2 class="text-center text-uppercase red-text py-4 px-3">
+                        <div>
+                            <h5>- Matricule: {{ etudiant.matricule }}</h5>
+                            <h5>- Nom: {{ etudiant.nom|upper }}</h5>
+                            <h5>- Prenom: {{ etudiant.prenom }}</h5>
+                            <h5>- Telephone: {{ etudiant.telephone }}</h5>
+                            <h5>- email: {{ etudiant.email }}</h5>
+                        </div>
+                    </h2>
+
+                    <hr class="mb-0">
+
+                    <!-- Accordion card -->
+                    <div class="card">
+
+                        <!-- Card header -->
+                        <div class="card-header" role="tab" id="heading4">
+                            <a data-toggle="collapse" data-parent="#accordionEx194" href="#collapse4" aria-expanded="true"
+                               aria-controls="collapse4">
+                                <h3 class="mb-0 red-text">
+                                    LISTE DES DIPLOMES OBTENU A L'UNB<div class="animated-icon1 float-right mt-1"><span></span><span></span><span></span></div>
+                                </h3>
+                            </a>
+                        </div>
+
+                        <!-- Card body -->
+                        <div id="collapse4" class="collapse show" role="tabpanel" aria-labelledby="heading4" data-parent="#accordionEx194">
+                            <div class="card-body p-5">
+                                <table class="table table-xxl mdl-shadow--2dp ">
+                                    <thead class="green white-text">
+                                    <tr>
+                                        <th class="th_content">Numero</th>
+                                        <th class="th_content">Date</th>
+                                        <th class="th_content">Intitule</th>
+                                        <th>Diplome</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    {% for diplome in etudiant.diplomes %}
+                                        <tr>
+                                            <td class="td_content">{{ diplome.numeroDiplome | upper() }}</td>
+                                            <td class="td_content">{{ diplome.dateDelivrance|date('Y') }}</td>
+                                            <td class="td_content">{{ diplome.nature.intitule }}</td>
+                                            <td class="td_content">
+                                                {% if diplome.fichdiplomes is not null %}
+                                                    <i class="fa fa-file"></i> <a href="{{ asset(vich_uploader_asset(diplome, 'fichdiplomesFile', 'AppBundle\\Entity\\Diplome')) }}">{{ diplome.numeroDiplome }}</a>
+                                                {% endif %}
+                                            </td>
+                                        </tr>
+                                    {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Accordion card -->
+
+                    <!-- Accordion card -->
+                    <div class="card">
+
+                        <!-- Card header -->
+                        <div class="card-header" role="tab" id="heading5">
+                            <a class="collapsed" data-toggle="collapse" data-parent="#accordionEx194" href="#collapse5" aria-expanded="false"
+                               aria-controls="collapse5">
+                                <h3 class="mb-0 red-text">
+                                    LISTE DE MES CERTIFICATIONS / AUTRES DIPLOMES <div class="animated-icon1 float-right mt-1"><span></span><span></span><span></span></div>
+                                </h3>
+                            </a>
+                        </div>
+
+                        <!-- Card body -->
+                        <div id="collapse5" class="collapse" role="tabpanel" aria-labelledby="heading5" data-parent="#accordionEx194">
+                            <div class="card-body p-5">
+                                <table class=" table mdl-shadow--2dp">
+                                    <thead class="green white-text">
+                                    <tr>
+                                        <th class="th_content">Numero</th>
+                                        <th class="th_content">Date</th>
+                                        <th class="th_content">Abrev</th>
+                                        <th class="th_content">Intitule</th>
+                                        <th class="th_content">Organisme</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    {% for certificat in etudiant.certificats %}
+                                        <tr>
+                                            <td class="td_content">{{ certificat.numeroCertificat | upper()}}</td>
+                                            <td class="td_content">{{ certificat.dateDelivrance|date('Y') }}</td>
+                                            <td class="td_content">{{ certificat.abreviation }}</td>
+                                            <td class="td_content">{{ certificat.intitule }}</td>
+                                            <td class="td_content">{{ certificat.fondation }}</td>
+                                        </tr>
+                                    {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Accordion card -->
+
+                    <!-- Accordion card -->
+                    <div class="card">
+
+                        <!-- Card header -->
+                        <div class="card-header" role="tab" id="heading6">
+                            <a class="collapsed" data-toggle="collapse" data-parent="#accordionEx194" href="#collapse6" aria-expanded="false"
+                               aria-controls="collapse6">
+                                <h3 class="mb-0 red-text">
+                                    MON EXPERIENCE PROFESSIONNELLE <div class="animated-icon1 float-right mt-1"><span></span><span></span><span></span></div>
+                                </h3>
+                            </a>
+                        </div>
+
+                        <!-- Card body -->
+                        <div id="collapse6" class="collapse" role="tabpanel" aria-labelledby="heading6" data-parent="#accordionEx194">
+                            <div class="card-body p-5">
+                                <table class="table mdl-shadow--2dp">
+                                    <thead class="green white-text">
+                                    <tr>
+                                        <th class="th_content">Entreprise</th>
+                                        <th class="th_content">Poste</th>
+                                        <th class="th_content">Tel</th>
+                                        <th class="th_content">Site</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    {% for entreprise in etudiant.entreprises %}
+                                        <tr>
+                                            <td class="td_content">{{ entreprise.nom }}</td>
+                                            <td class="td_content">{{ entreprise.post }}</td>
+                                            <td class="td_content">{{ entreprise.telephone }}</td>
+                                            <td class="td_content"><a href="http://{{ entreprise.siteInternet }}">{{ entreprise.siteInternet }}</a></td>
+                                        </tr>
+                                    {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Accordion card -->
+                </div>
+                <!--/.Accordion wrapper-->
+            </div>
+
+        </main>
+    {% endblock %}
+{% endblock %}
+{% block javascripts %}
+    {{ parent() }}
+{% endblock %}

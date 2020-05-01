@@ -1,0 +1,47 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Universites list</h1>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Nom</th>
+                <th>Email</th>
+                <th>Codepostal</th>
+                <th>Telephone</th>
+                <th>Siteinternet</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for universite in universites %}
+            <tr>
+                <td><a href="{{ path('universite_show', { 'id': universite.id }) }}">{{ universite.id }}</a></td>
+                <td>{{ universite.nom }}</td>
+                <td>{{ universite.email }}</td>
+                <td>{{ universite.codePostal }}</td>
+                <td>{{ universite.telephone }}</td>
+                <td>{{ universite.siteInternet }}</td>
+                <td>
+                    <ul>
+                        <li>
+                            <a href="{{ path('universite_show', { 'id': universite.id }) }}">show</a>
+                        </li>
+                        <li>
+                            <a href="{{ path('universite_edit', { 'id': universite.id }) }}">edit</a>
+                        </li>
+                    </ul>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('universite_new') }}">Create a new universite</a>
+        </li>
+    </ul>
+{% endblock %}

@@ -1,0 +1,94 @@
+{% extends 'index.html.twig' %}
+
+{% block stylesheets %}
+    {{ parent() }}
+
+{% endblock %}
+
+{% block body %}
+    {% block header %}
+        {{ parent() }}
+    {% endblock %}
+    {% block content %}
+        {{ parent() }}
+        <main class="pt-5 mx-lg-6">
+            <div class="container-fluid mt-5">
+                <div class="card card-cascade narrower mb-4">
+                    <div class="view view-cascade py-3 gradient-card-header info-color-dark mx-4 d-flex justify-content-between align-items-center">
+                        <a href="" class="white-text mx-3">Mon Experience Pro</a>
+                        <a href="{{ path('entreprise_index') }}" class="btn btn-sm btn-info ">
+                            <i class="fas fa-list"></i> Voire la liste
+                        </a>
+                        <a href="{{ path('entreprise_new') }}" class="btn btn-sm btn-info ml-2">
+                            <i class="fas fa-plus-circle"></i> Ajoueter
+                        </a>
+                    </div>
+                    <div class="card-body" align="center">
+                        <div class="card col-md-10">
+                            <h5 class="card-header info-color white-text text-center py-4">
+                                <strong>Ajouter une Nouvelle experience</strong>
+                            </h5>
+                            <div class="card-body px-lg-5 pt-0 mb-1">
+                                    {{ form_start(form, {'attr': {'novalidate': 'novalidate'}}) }}
+                                    <div class="row">
+                                        <div class="md-form col-md-6">
+                                            {{ form_widget(form.nom) }}
+                                            {{ form_label(form.nom) }}
+                                            {{ form_errors(form.nom) }}
+                                        </div>
+                                        <div class="md-form col-md-6">
+                                            {{ form_widget(form.post) }}
+                                            {{ form_label(form.post) }}
+                                            {{ form_errors(form.post) }}
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="md-form col-md-6">
+                                            {{ form_widget(form.pays) }}
+                                            {{ form_label(form.pays) }}
+                                            {{ form_errors(form.pays) }}
+                                        </div>
+                                        <div class="md-form col-md-6">
+                                            {{ form_widget(form.ville) }}
+                                            {{ form_label(form.ville) }}
+                                            {{ form_errors(form.ville) }}
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="md-form col-md-6">
+                                            {{ form_widget(form.codePostal) }}
+                                            {{ form_label(form.codePostal) }}
+                                            {{ form_errors(form.codePostal) }}
+                                        </div>
+                                        <div class="md-form col-md-6">
+                                            {{ form_widget(form.telephone) }}
+                                            {{ form_label(form.telephone) }}
+                                            {{ form_errors(form.telephone) }}
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="md-form col-md-6">
+                                            {{ form_widget(form.email) }}
+                                            {{ form_label(form.email) }}
+                                            {{ form_errors(form.email) }}
+                                        </div>
+                                        <div class="md-form col-md-6">
+                                            {{ form_widget(form.siteInternet) }}
+                                            {{ form_label(form.siteInternet) }}
+                                            {{ form_errors(form.siteInternet) }}
+                                        </div>
+                                    </div>
+                                    <button class="btn btn-outline-info btn-rounded btn-block my-4 waves-effect z-depth-0" type="submit">Enregistrer</button>
+                                {{ form_end(form) }}
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </main>
+    {% endblock %}
+{% endblock %}
+{% block javascripts %}
+    {{ parent() }}
+{% endblock %}

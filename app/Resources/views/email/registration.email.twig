@@ -1,0 +1,11 @@
+{% block subject %}
+Confirmation d'inscription
+{% endblock %}
+{% block body_text %}
+    {% autoescape false %}
+    Bonjour {{ user.username }} !
+    Felicitation pour votre inscription sur la plateforme de l'Universite Nazi Boni.
+    Confirmez votre inscription en cliquant sur le lien suivant : {{ confirmationUrl }}
+    Amicalement Dabonne hoda.
+    {% endautoescape %}
+{% endblock %}

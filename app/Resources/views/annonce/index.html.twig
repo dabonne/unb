@@ -1,0 +1,129 @@
+{% extends 'index.html.twig' %}
+
+{% block stylesheets %}
+    {{ parent() }}
+{% endblock %}
+
+{% block body %}
+    {% block header %}
+        {{ parent() }}
+    {% endblock %}
+    {% block content %}
+        {{ parent() }}
+        <main class="pt-5 mx-lg-6">
+            <div class="container-fluid mt-5">
+                    <div class="card card-cascade narrower mb-4">
+                        <div class="view view-cascade py-3 gradient-card-header info-color-dark mx-4 d-flex justify-content-between align-items-center">
+                            <a href="" class="white-text mx-3">Toutes les Annonces </a>
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive">
+                    <table id="table_id" class="table table-hover table-fixed text-rap">
+                        <thead style="background-color: lightseagreen;">
+                        <tr class="">
+                            <th style="text-align: center;color: white"> Objet</th>
+                            <th style="text-align: center;color: white"> Information</th>
+                            <th style="text-align: center;color: white"> Date Publication</th>
+                            <th style="text-align: center;color: white"> Fin Annonce</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for annonce in annonces %}
+                            <tr>
+                                <td style="text-align: center">{{ annonce.intitule }}</td>
+                                <td style="text-align: center">{{ annonce.information }}</td>
+                                <td style="text-align: center">{{ annonce.date |date('d-m-Y') }}</td>
+                                <td style="text-align: center">{{ annonce.dateFin |date('d-m-Y') }}</td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                    </div>
+                      <hr class="my-0">
+                    </div>
+                    </div>
+                </div>
+        </main>
+    {% endblock %}
+{% endblock %}
+{% block javascripts %}
+    {{ parent() }}
+    <script>
+        $(document).ready(function () {
+            $('#table_id').DataTable({
+                "language": {
+                    "url": "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/French.json",
+                    scrollY: 400
+                }
+            });
+            var etudiant = $('#idEtudiant').text();
+            $('.datepiker').datepicker({
+                uiLibrary: 'bootstrap4'
+            });
+            $('#form_diplome').on('submit', function (e) {
+                e.preventDefault();
+                $.ajax({
+                    type:'POST',
+                    data:$(this).serialize(),
+                    dataType: 'JSON',
+                    url: Routing.generate('diplome_etudiant')
+                }).done(function (data) {
+                    if(data === 'ok')
+                    {
+                        alert('Diplome ajouter avec succes');
+                        $(location).attr('href',Routing.generate('etudiant_show',{'id':etudiant}));
+                    }else if(data === 'Nok') alert('Impossible d\'ajouter le diplome');
+                })
+            });
+
+            $('#form_experience').on('submit', function (e) {
+                e.preventDefault();
+                $.ajax({
+                    type:'POST',
+                    data:$(this).serialize(),
+                    dataType: 'JSON',
+                    url: Routing.generate('entreprise_etudiant')
+                }).done(function (data) {
+                    if(data === 'ok')
+                    {
+                        alert('Entreprise ajouter avec succes');
+                        $(location).attr('href',Routing.generate('etudiant_show',{'id':etudiant}));
+                    }else if(data === 'Nok') alert('Impossible d\'ajouter l\'entreprise');
+                })
+            });
+
+            $('#form_photo').on('submit', function (e) {
+                e.preventDefault();
+                $.ajax({
+                    type:'POST',
+                    data:$(this).serialize(),
+                    dataType: 'JSON',
+                    url: Routing.generate('etudiant_addPhoto')
+                }).done(function (data) {
+                    if(data === 'ok')
+                    {
+                        alert('Photo modifier');
+                    }else if(data === 'Nok') alert('Impossible de modifier la photo');
+                })
+            });
+
+            $('#form_certificat').on('submit', function (e) {
+                e.preventDefault();
+                $.ajax({
+                    type:'POST',
+                    data:$(this).serialize(),
+                    dataType: 'JSON',
+                    url: Routing.generate('certificat_etudiant')
+                }).done(function (data) {
+                    if(data === 'ok')
+                    {
+                        alert('Certificat ajouter avec succes');
+                        $(location).attr('href',Routing.generate('etudiant_show',{'id':etudiant}));
+                    }
+                })
+            });
+        });
+    </script>
+{% endblock %}
+
+

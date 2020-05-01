@@ -1,0 +1,103 @@
+<?php
+
+namespace AppBundle\Entity;
+
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * Concerne
+ *
+ * @ORM\Table(name="concerne")
+ * @ORM\Entity(repositoryClass="AppBundle\Repository\ConcerneRepository")
+ */
+class Concerne
+{
+    /**
+     * @var int
+     *
+     * @ORM\Column(name="id", type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="AUTO")
+     */
+    private $id;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="intitule", type="string", length=100, unique=true)
+     */
+    private $intitule;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="abrv", type="string", length=50, unique=true)
+     */
+    private $abrv;
+
+
+    /**
+     * Get id
+     *
+     * @return int
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    public function __construct()
+    {
+        //$this->annonces = new ArrayCollection();
+    }
+
+    /**
+     * Set intitule
+     *
+     * @param string $intitule
+     *
+     * @return Concerne
+     */
+    public function setIntitule($intitule)
+    {
+        $this->intitule = $intitule;
+
+        return $this;
+    }
+
+    /**
+     * Get intitule
+     *
+     * @return string
+     */
+    public function getIntitule()
+    {
+        return $this->intitule;
+    }
+
+    /**
+     * Set abrv
+     *
+     * @param string $abrv
+     *
+     * @return Concerne
+     */
+    public function setAbrv($abrv)
+    {
+        $this->abrv = $abrv;
+
+        return $this;
+    }
+
+    /**
+     * Get abrv
+     *
+     * @return string
+     */
+    public function getAbrv()
+    {
+        return $this->abrv;
+    }
+
+}

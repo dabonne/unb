@@ -1,0 +1,93 @@
+{% extends 'base.html.twig' %}
+{% block stylesheets %}
+    {{ parent() }}
+{% endblock %}
+
+{% block body %}
+    {% block header %}
+        <header>
+
+            <!-- Navbar -->
+            <nav class="navbar fixed-top navbar-expand-lg navbar-light white scrolling-navbar">
+                <div class="container-fluid">
+                    <a href="#" class="list-group-item active waves-effect">
+                        <i class="fas fa-chart-pie mr-3"></i>UNB-LIVE-REZO
+                    </a>
+
+                    <!-- Collapse -->
+                    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+                            aria-controls="navbarSupportedContent" aria-expanded="true" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+
+                    <!-- Links -->
+                    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+
+                        <!-- Left -->
+                        <ul class="navbar-nav mr-auto">
+                            <li class="nav-item">
+                                <a class="nav-link waves-effect"href="{{ path('entreprise_principal') }}"><span style="color: orange">Etablissements </span><i class="material-icons mdl-badge mdl-badge--overlap fas fa-graduation-cap "></i>
+                                    <span class="sr-only">(current)</span>
+                                </a>
+                            </li>
+
+                            <li class="nav-item">
+                                <a class="nav-link waves-effect" href="{{ path('nature_index') }}"> <span style="color: orange">Formations </span><i class="material-icons mdl-badge mdl-badge--overlap fas fa-graduation-cap "></i>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link waves-effect" href="{{ path('annonce_index_entreprises') }} "> <span style="color: orange">Annonces </span><i class="material-icons fas fa-handshake-o  mdl-badge mdl-badge--overlap"></i></a>
+                                </a>
+                            </li>
+                        </ul>
+                        <!-- Right -->
+
+                        <ul class="navbar-nav nav-flex-icons dropdown">
+                            <li class="nav-item" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
+                                <a  class="nav-link border border-light rounded waves-effect">
+                                  <span style="color: orange"><i class="fas fa-power-off"></i>
+                                      Infos du Compte
+                                  </span>
+                                </a>
+                            </li>
+                            <li>
+                                <ul class="dropdown-menu">
+                                    <li>
+                                        <a class="nav-link waves-effect dropdown-item" href="{{ path('fos_user_security_logout') }}">
+                                        <span style="color: orange"><i class="fas fa-power-off"></i>
+                                            {{ 'layout.logout'|trans({}, 'FOSUserBundle') }}
+                                        </span>
+                                        </a>
+                                        <a class="nav-link waves-effect dropdown-item" href="{{ path('utilisateur_show_entreprise',{'id':user.id}) }}">
+                                            <i class="material-icons fas fa-user"></i>
+                                            <span style="color: orange">Mon Compte</span>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </nav>
+        </header>
+
+    {% endblock %}
+
+    {% block content %}
+
+    {% endblock %}
+
+    {% endblock %}
+
+    {% block javascripts %}
+        {{ parent() }}
+        <script>
+            $(document).ready(function () {
+                $('#send_diplome').click(function (e) {
+                    e.preventDefault();
+                    var numDiplome = $('#verifier').val();
+                    $(location).attr('href',Routing.generate('diplome_verif',{'numeroDiplome':numDiplome}));
+                })
+            })
+        </script>
+    {% endblock %}

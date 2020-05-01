@@ -1,0 +1,60 @@
+{% extends 'index.html.twig' %}
+
+{% block stylesheets %}
+    {{ parent() }}
+{% endblock %}
+
+{% block body %}
+    {% block header %}
+        {{ parent() }}
+    {% endblock %}
+    {% block content %}
+<main class="mdl-layout__content mdl-color--grey-100">
+    <div class="mdl-grid demo-content">
+        {{ parent() }}
+        <style>
+            .demo-card-wide.mdl-card {
+                width: 512px;
+                margin: 2% 0 1% 2%;
+            }
+            .demo-card-wide > .mdl-card__title {
+                color: #fff;
+                height: 176px;
+            }
+            .demo-card-wide > .mdl-card__menu {
+                color: #fff;
+            }
+        </style>
+
+
+<div align="center" style="margin: 0 0 0 25%">
+    <div><h1 style="text-align: center">Ajouter un Diplome </h1></div>
+    <div class="row" style="margin: 0 1% 0 1%">
+        <div class="demo-card-wide mdl-card mdl-shadow--2dp">
+            <div class="mdl-card__title" style="height: auto">
+                <h2 class="mdl-card__title-text" style="color: #ff4081; width: 100%"></h2>
+            </div>
+            <div class="mdl-card__supporting-text">
+                {{ form_start(form) }}
+                {{ form_widget(form) }}
+            </div>
+            <div class="mdl-card__actions mdl-card--border">
+                <input type="submit" value="Create" class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect" style="background-color: #388e3c;color: white"/>
+                {{ form_end(form) }}
+            </div>
+        </div>
+    </div>
+
+    <ul style="list-style: none">
+        <li>
+            <a href="{{ path('diplome_index') }}">Retour a la liste</a>
+        </li>
+    </ul>
+    </div>
+    </div>
+</main>
+{% endblock %}
+{% endblock %}
+{% block javascripts %}
+    {{ parent() }}
+{% endblock %}

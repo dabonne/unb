@@ -1,0 +1,16 @@
+hwi_oauth:
+    connect:
+        account_connector: my_user_provider
+    firewall_names: [main]
+    fosub:
+        username_iterations: 30
+        properties:
+            facebook: facebook_id
+    resource_owners:
+        facebook:
+            type: facebook
+            client_id: 197636574519739
+            client_secret: 44b46e35677c844f55b75851339a599e
+            scope: ""
+            options:
+                display: popup

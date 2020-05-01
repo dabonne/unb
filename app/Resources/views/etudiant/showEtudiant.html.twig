@@ -1,0 +1,165 @@
+{% extends 'index.html.twig' %}
+
+{% block stylesheets %}
+    {{ parent() }}
+{% endblock %}
+
+{% block body %}
+    {% block header %}
+        {{ parent() }}
+    {% endblock %}
+    {% block content %}
+        {{ parent() }}
+        <style>
+            .demo-card-wide.mdl-card:hover {
+                box-shadow:0 9px 5px 8px rgba(0,0,0,.14),0 11px 15px -7px rgba(0,0,0,.12),0 24px 38px 3px rgba(0,0,0,.2)
+            }
+            .demo-card-wide.mdl-card {
+                width: 800px;
+                min-height: 150px;
+                height: auto;
+                transition: box-shadow .5s;
+            }
+            .demo-card-wide > .mdl-card__title {
+                color: #fff;
+            }
+            .demo-card-wide > .mdl-card__menu {
+                color: #fff;
+            }
+            .td_content{
+               text-align: center;
+            }
+            .th_content{
+                text-align: center;
+            }
+        </style>
+
+        <main class="pt-5 mx-lg-6">
+            <div class="container-fluid mt-5">
+                        <div class="">
+                            <div class="card card-cascade mdl-shadow--2dp">
+                                <div>
+                                    <div id="infos_preso">
+                                        <h4 align="center"  style="background-color: lightseagreen;color: white; padding: 2% 0 2% 0;text-decoration: underline;">
+                                            INFORMATIONS PERSONNELLES
+                                        </h4>
+                                        <div class="mdl-grid">
+                                                <div style="border-right: 1px solid black;padding: 2% 4% 2% 5%;border-left: 10px solid green;">
+                                                    <h6>- Matricule: {{ etudiant.matricule }}</h6>
+                                                    <h6>- Nom: {{ etudiant.nom|upper }}</h6>
+                                                    <h6>- Prenom: {{ etudiant.prenom }}</h6>
+                                                    <h6>- Telephone: {{ etudiant.telephone }}</h6>
+                                                    <h6>- email: {{ etudiant.email }}</h6>
+                                                </div>
+                                            <div style="margin-left: 20%">
+                                                <div style="padding-top: 5%">
+                                                    {% if etudiant.image is not null %}
+                                                        <img src="{{ asset(vich_uploader_asset(etudiant, 'imageFile')) }}" alt="{{ etudiant.matricule }}" height="100" width="110"  class="" style="border-radius: 2%; margin-left: 15%;margin-top: 5%"/>
+                                                    {% else %}<img src="{{ absolute_url(asset('images/images.png'))}}" alt="Avatar du conpte" height="100" width="110"  class="" style="border-radius: 2%; margin-left: 15%" />
+                                                    {% endif %}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div id="formation">
+                                        <h4 align="center" style="background-color: lightseagreen;color: white;padding: 2% 0 2% 0;text-decoration: underline">
+                                            LISTE DES DIPLOMES OBTENU A L'UNB
+                                        </h4>
+                                        <div style="border-left: 10px solid green;">
+                                            <table class="table table-sm mdl-shadow--2dp">
+                                                <thead>
+                                                <tr>
+                                                    <th class="th_content">Numero</th>
+                                                    <th class="th_content">Date</th>
+                                                    <th class="th_content">Intitule</th>
+                                                </tr>
+                                                </thead>
+                                                <tbody>
+                                                {% for diplome in etudiant.diplomes %}
+                                                    <tr>
+                                                        <td class="td_content">{{ diplome.numeroDiplome }}</td>
+                                                        <td class="td_content">{{ diplome.dateDelivrance|date('Y') }}</td>
+                                                        <td class="td_content">{{ diplome.nature.intitule }}</td>
+                                                    </tr>
+                                                {% endfor %}
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                    <div id="certifications">
+                                        <h4 align="center" style="background-color: lightseagreen;color: white;padding: 2% 0 2% 0;text-decoration: underline">
+                                            LISTE DE MES CERTIFICATIONS / AUTRES DIPLOMES
+                                        </h4>
+                                        <div style="border-left: 10px solid green">
+                                            <table class=" table table-sm mdl-shadow--2dp">
+                                                <thead class="">
+                                                <tr>
+                                                    <th class="th_content">Numero</th>
+                                                    <th class="th_content">Date</th>
+                                                    <th class="th_content">Abrev</th>
+                                                    <th class="th_content">Intitule</th>
+                                                    <th class="th_content">Organisme</th>
+                                                </tr>
+                                                </thead>
+                                                <tbody>
+                                                {% for certificat in etudiant.certificats %}
+                                                    <tr>
+                                                        <td class="td_content">{{ certificat.numeroCertificat }}</td>
+                                                        <td class="td_content">{{ certificat.dateDelivrance|date('Y') }}</td>
+                                                        <td class="td_content">{{ certificat.abreviation }}</td>
+                                                        <td class="td_content">{{ certificat.intitule }}</td>
+                                                        <td class="td_content">{{ certificat.fondation }}</td>
+                                                    </tr>
+                                                {% endfor %}
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+
+                                    <div id="experienceProf">
+                                        <h4 align="center" style="background-color: lightseagreen;color: white;padding: 2% 0 2% 0;text-decoration: underline">
+                                             MON EXPERIENCE PROFESSIONNELLE
+                                        </h4>
+                                        <div class="mb-1" style="border-left: 10px solid green">
+                                            <table class="table table-sm mdl-shadow--2dp">
+                                                <thead>
+                                                <tr>
+                                                    <th class="th_content">Entreprise</th>
+                                                    <th class="th_content">Poste</th>
+                                                    <th class="th_content">Tel</th>
+                                                    <th class="th_content">Site</th>
+                                                </tr>
+                                                </thead>
+                                                <tbody>
+                                                {% for entreprise in etudiant.entreprises %}
+                                                    <tr>
+                                                        <td class="td_content">{{ entreprise.nom }}</td>
+                                                        <td class="td_content">{{ entreprise.post }}</td>
+                                                        <td class="td_content">{{ entreprise.telephone }}</td>
+                                                        <td class="td_content"><a href="http://{{ entreprise.siteInternet }}">{{ entreprise.siteInternet }}</a></td>
+                                                    </tr>
+                                                {% endfor %}
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+            </div>
+        </main>
+    {% endblock %}
+{% endblock %}
+{% block javascripts %}
+    {{ parent() }}
+    <script>
+        $('document').ready(function () {
+            $('mon_table').DataTable({
+                "language": {
+                    "url": "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/French.json",
+                    scrollY: 400
+                }
+            });
+        })
+    </script>
+{% endblock %}

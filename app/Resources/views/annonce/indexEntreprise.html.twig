@@ -1,0 +1,193 @@
+{% extends 'entrepriseIndex.html.twig' %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <style>
+        main{
+            padding-left: 0;
+        }
+        th,td{
+            text-align: center;
+        }
+    </style>
+{% endblock %}
+
+{% block body %}
+    {% block header %}
+        {{ parent() }}
+    {% endblock %}
+    {% block content %}
+        {{ parent() }}
+
+        <main class="pt-5 mx-lg-6">
+            {% for flash_message in app.session.flashBag.get('succes') %}
+                <div class="flash-notice">
+                    {{ flash_message }}
+                </div>
+            {% endfor %}
+            <div class="container-fluid mt-5">
+                <div class="card card-cascade narrower mb-4">
+                    <div class="view view-cascade py-3 gradient-card-header info-color-dark mx-4 d-flex justify-content-between align-items-center">
+                        <a href="" class="white-text mx-3">Toutes les Annonces </a>
+                        <a href="{{ path('annonce_index_entreprises') }}" class="btn btn-sm btn-info ">
+                            <i class="fas fa-list"></i> Voire la liste
+                        </a>
+                        <a href="{{ path('annonce_new_entreprise') }}" class="btn btn-sm btn-info ml-2">
+                            <i class="fas fa-plus-circle"></i> Ajoueter
+                        </a>
+                    </div>
+                    <div class="card-body">
+                        <div class="table">
+                            <table id="table_id" class="table table-hover table-fixed text-rap">
+                                <thead style="background-color: lightseagreen;">
+                                <tr class="">
+                                    <th class="th_table"> Objets</th>
+                                    <th class="th_table"> Documents</th>
+                                    <th class="th_table"> Diplomes</th>
+                                    <th class="th_table"> Date Publication</th>
+                                    <th class="th_table"> Options</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                {% for annonce in annonces %}
+                                    <tr>
+                                        <td class="td_table">{{ annonce.intitule }}</td>
+                                        <td class="td_tabl">
+                                            {% if annonce.piece is not null %}
+                                                <i class="fa fa-file"></i> <a href="{{ asset(vich_uploader_asset(annonce, 'pieceFile')) }}">{{ annonce.piece }}</a>
+                                            {% endif %}
+                                        </td>
+                                        <td class="td_table">
+                                            {% for nature in annonce.natures %}
+                                                <span class="badge badge-default">
+                                                    {{ nature.abreviation }}
+                                                </span>
+                                            {% endfor %}
+                                        </td>
+                                        <td class="td_table">{{ annonce.date |date('d-m-Y') }}</td>
+                                        <td id="{{ annonce.id }}" class="">
+                                            <ul class="list-unstyled list-group list-group-horizontal" style=";padding-left: 25%">
+                                                <li class="">
+                                                    <a class="btn btn-sm btn-success ml-2 px-2" href="{{ path('annonce_edit_entreprises', { 'id': annonce.id }) }}">Mod <i class="fas fa-edit" style="color: white"></i></a>
+                                                </li>
+                                                <li class="">
+                                                    <a class="btn btn-sm btn-danger ml-2 px-2" data-toggle="modal" data-target="#basicExampleModal" >Suppr <i class="fas fa-trash"></i></a>
+                                                </li>
+                                            </ul>
+
+                                        </td>
+                                    </tr>
+
+                                    <!-- Modal -->
+                                    <div class="modal fade" id="basicExampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+                                         aria-hidden="true">
+                                        <div class="modal-dialog" role="document">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h2 class="modal-title" id="exampleModalLabel">SUPPRESSION DE L'ANNONCE</h2>
+                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                        <span aria-hidden="true">&times;</span>
+                                                    </button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    Voulez vous contunuer
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Annuler</button>
+                                                    <a class="btn btn-danger" href="{{ path('annonce_delete_entreprise', { 'id': annonce.id }) }}">Supprimer</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                        <hr class="my-0">
+                    </div>
+                </div>
+            </div>
+        </main>
+    {% endblock %}
+{% endblock %}
+{% block javascripts %}
+    {{ parent() }}
+    <script>
+        $(document).ready(function () {
+            $('#table_id').DataTable({
+                "language": {
+                    "url": "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/French.json",
+                    scrollY: 400
+                }
+            });
+            var etudiant = $('#idEtudiant').text();
+            $('.datepiker').datepicker({
+                uiLibrary: 'bootstrap4'
+            });
+            $('#form_diplome').on('submit', function (e) {
+                e.preventDefault();
+                $.ajax({
+                    type:'POST',
+                    data:$(this).serialize(),
+                    dataType: 'JSON',
+                    url: Routing.generate('diplome_etudiant')
+                }).done(function (data) {
+                    if(data === 'ok')
+                    {
+                        alert('Diplome ajouter avec succes');
+                        $(location).attr('href',Routing.generate('etudiant_show',{'id':etudiant}));
+                    }else if(data === 'Nok') alert('Impossible d\'ajouter le diplome');
+                })
+            });
+
+            $('#form_experience').on('submit', function (e) {
+                e.preventDefault();
+                $.ajax({
+                    type:'POST',
+                    data:$(this).serialize(),
+                    dataType: 'JSON',
+                    url: Routing.generate('entreprise_etudiant')
+                }).done(function (data) {
+                    if(data === 'ok')
+                    {
+                        alert('Entreprise ajouter avec succes');
+                        $(location).attr('href',Routing.generate('etudiant_show',{'id':etudiant}));
+                    }else if(data === 'Nok') alert('Impossible d\'ajouter l\'entreprise');
+                })
+            });
+
+            $('#form_photo').on('submit', function (e) {
+                e.preventDefault();
+                $.ajax({
+                    type:'POST',
+                    data:$(this).serialize(),
+                    dataType: 'JSON',
+                    url: Routing.generate('etudiant_addPhoto')
+                }).done(function (data) {
+                    if(data === 'ok')
+                    {
+                        alert('Photo modifier');
+                    }else if(data === 'Nok') alert('Impossible de modifier la photo');
+                })
+            });
+
+            $('#form_certificat').on('submit', function (e) {
+                e.preventDefault();
+                $.ajax({
+                    type:'POST',
+                    data:$(this).serialize(),
+                    dataType: 'JSON',
+                    url: Routing.generate('certificat_etudiant')
+                }).done(function (data) {
+                    if(data === 'ok')
+                    {
+                        alert('Certificat ajouter avec succes');
+                        $(location).attr('href',Routing.generate('etudiant_show',{'id':etudiant}));
+                    }
+                })
+            });
+        });
+    </script>
+{% endblock %}
+
+

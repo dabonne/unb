@@ -1,0 +1,29 @@
+certificat_index:
+    path:     /
+    defaults: { _controller: "AppBundle:Certificat:index" }
+    methods:  GET
+
+certificat_etudiant:
+    path:     /EtudiantCertificat
+    defaults: { _controller: "AppBundle:Certificat:newEtudiantCertificat" }
+    methods:  POST
+
+certificat_show:
+    path:     /{id}/show
+    defaults: { _controller: "AppBundle:Certificat:show" }
+    methods:  GET
+
+certificat_new:
+    path:     /new
+    defaults: { _controller: "AppBundle:Certificat:new" }
+    methods:  [GET, POST]
+
+certificat_edit:
+    path:     /{id}/edit
+    defaults: { _controller: "AppBundle:Certificat:edit" }
+    methods:  [GET, POST]
+
+certificat_delete:
+    path:     /{id}/delete
+    defaults: { _controller: "AppBundle:Certificat:delete" }
+    methods:  DELETE

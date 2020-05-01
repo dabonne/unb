@@ -1,0 +1,265 @@
+# app/config/config.yml
+easy_admin:
+  list:
+    max_results: 20
+  design:
+    brand_color: 'orange'
+    menu:
+      - label: 'UNB'
+        children: ['Universite','Etablissement',]
+      - label: 'Formations'
+        children: ['Diplome','Certificat','Nature']
+      - label: 'Etudiants & Entreprise'
+        children: ['Etudiant','Entreprise']
+      - label: 'Comptes Utilisateurs'
+        children: ['Utilisateur']
+      - { label: 'Annonces', route: 'annonce_index_admin' }
+
+  formats:
+    date:     'd-m-Y'
+    time:     'H:i'
+    datetime: 'Y'
+  entities:
+    Universite:
+      class: AppBundle\Entity\Universite
+      label: 'Universite'
+      list:
+        actions:
+          - { name: 'show', icon: 'search', label: 'Rech' }
+          - { name: 'edit', icon: 'pencil', label: 'Modif' }
+          - { name: 'delete', icon: 'remove', label: 'Suppr' }
+        title: "Liste des universites"
+        fields: ['nom','abreviation',{ property: 'email', type: 'email' },'codePostal',{ property: 'telephone', type: 'tel' },{ property: 'siteInternet', type: 'url'}]
+        sort: 'nom'
+      show:
+        title: "Universites"
+      form:
+        title: "Creation d'une nouvellle universite"
+        form_options: { validation_groups: ['Default'] }
+        fields:
+          - nom
+          - abreviation
+          - { property: 'email', type: 'email', type_options: { trim: true } }
+          - codePostal
+          - telephone
+          - siteInternet
+      new:
+        form_options: { validation_groups: ['Default', 'Universite'] }
+      edit:
+        title:  'Edition'
+
+    Etablissement:
+      class: AppBundle\Entity\Etablissement
+      label: 'Etablissement'
+      list:
+        actions:
+          - { name: 'show', icon: 'search', label: 'Rech' }
+          - { name: 'edit', icon: 'pencil', label: 'Modif' }
+          - { name: 'delete', icon: 'remove', label: 'Suppr' }
+
+        title: "Liste des etablissements"
+        fields: ['nom','email ', { property: 'telephone', type: 'tel'}, { property: 'siteInternet', type: 'url'},{property: 'natures', label: 'formation'},'universite']
+      show:
+        title: "Etablissement"
+        fields: ['nom','email ', { property: 'telephone', type: 'tel'}, { property: 'siteInternet', type: 'url'},'natures','universite']
+      new :
+        title: "Creation d'un etablissement"
+      form:
+        title: "Creation d'une nouvellle universite"
+        form_options: { validation_groups: ['Default'] }
+        fields:
+          - nom
+          - abreviation
+          - email
+          - telephone
+          - siteInternet
+          - { property: 'universite' }
+    Etudiant:
+      class: AppBundle\Entity\Etudiant
+      label: 'Etudiant'
+      list:
+        actions:
+          - { name: 'show', icon: 'search', label: 'Rech' }
+          - { name: 'edit', icon: 'pencil', label: 'Modif' }
+          - { name: 'delete', icon: 'remove', label: 'Suppr' }
+
+        title: "Liste des Etudiants de l'UNB"
+        fields: [{ property: 'image', type: 'image', base_path: '%app.path.etudiants_image%' },'matricule', 'nom' , 'prenom' , 'promotion', 'diplomes', { property: 'cv', label: 'Curriculum Vitae', type: 'file', base_path: 'http://localhost/baseetudiantV12/web/%app.path.etudiants_cvs%'} , 'etablissement', { property: 'email', type: 'email' }]
+        sort: 'nom'
+      show:
+        title: "Etudiant"
+        fields: [{ property: 'image', type: 'image', base_path: '%app.path.etudiants_image%' },'matricule', 'nom' , 'prenom' , 'promotion', 'diplomes', 'etablissement',{ property: 'email', type: 'email' },{ property: 'user', label: 'Compte Utilisateur' },'diplomes', 'certificats', 'entreprises']
+      new :
+        title: "Ajout d'un etudiant a la base"
+      form:
+          fields:
+            - { type: 'group', css_class: 'col-sm-5', icon: 'user', label: 'Informations Personnel' }
+            - matricule
+            - nom
+            - prenom
+            #- { property: 'imageFile', type: 'vich_image', label: 'photo' }
+            - { type: 'group', css_class: 'col-sm-7', icon: 'education', label: 'Formations' }
+            - promotion
+            - etablissement
+            - diplomes
+            #- { property: 'cvFile', type: 'vich_file',label: 'CV' }
+            - { type: 'group', css_class: 'col-sm-5', label: 'Experiences Professionnelles' }
+            - entrepriseEtudiants
+            - { type: 'group', label: 'Contacts', icon: 'phone ', css_class: 'col-sm-7' }
+            - email
+            - telephone
+          form_options: { validation_groups: ['RegistrationUtilisateur'] }
+      edit :
+        title: "Modification"
+        form:
+          fields:
+            - { type: 'group', css_class: 'col-sm-6', icon: 'user', label: 'Informations Personnel' }
+            - matricule
+            - nom
+            - prenom
+            - { property: 'imageFile', type: 'vich_image' }
+            - { type: 'group', label: 'Contacts', icon: 'phone ', css_class: 'col-sm-6' }
+            - email
+            - telephone
+            - { type: 'group', css_class: 'col-sm-6', icon: 'education', label: 'Formations' }
+            - { property: 'promotion', type: 'date',type_options: { widget: 'single_text' } }
+            - etablissement
+            - diplomes
+            - certificats
+            - { type: 'group', css_class: 'col-sm-6', label: 'Experiences Professionnelles' }
+            - entreprises
+    Entreprise:
+      class: AppBundle\Entity\Entreprise
+      label: 'Entreprise'
+      list:
+        actions:
+          - { name: 'show', icon: 'search', label: 'Rech' }
+          - { name: 'edit', icon: 'pencil', label: 'Modif' }
+          - { name: 'delete', icon: 'remove', label: 'Suppr' }
+      show:
+        title: "Entreprise"
+        fields: ['nom' , 'ville' , 'pays', 'codePostal', 'telephone',{ property: 'email', type: 'email' }, { property: 'siteInternet', type: 'url'}]
+
+      new :
+        title: "Ajout d'une entreprise a la base"
+      form:
+        fields:
+          - { type: 'group', css_class: 'col-sm-5', icon: 'education' }
+          - nom
+          - ville
+          - pays
+          - codePostal
+          - { type: 'group', css_class: 'col-sm-7', icon: 'education' }
+          - telephone
+          - email
+          - siteInternet
+      edit :
+        title: "Modification"
+        form:
+          fields:
+            - { type: 'group', css_class: 'col-sm-5', icon: 'user' }
+            - nom
+            - ville
+            - pays
+            - - codePostal
+            - { type: 'group', css_class: 'col-sm-7', icon: 'education', label: 'Formations' }
+            - telephone
+            - email
+            - siteInternet
+
+
+    Nature:
+      class: AppBundle\Entity\Nature
+      label: 'Formations'
+      list:
+        actions:
+          - { name: 'show', icon: 'search', label: 'Rech' }
+          - { name: 'edit', icon: 'pencil', label: 'Modif' }
+          - { name: 'delete', icon: 'remove', label: 'Suppr' }
+
+        title: "Liste des diplomes"
+        fields: ['Intitule','abreviation','dateCreation', 'Etablissement',]
+      show:
+        title: "Nature"
+        fields: ['Intitule','abreviation', 'dateCreation', 'Etablissement',]
+      form:
+        title: "Creation d'un nouveau diplome"
+        form_options: { validation_groups: ['Default'] }
+        fields:
+          - { property: 'intitule',type: 'text' }
+          - { property: 'abreviation'}
+          - { property: 'dateCreation', type: 'date', type_options: { widget: 'single_text' }}
+          - { property: 'etablissement'}
+    Diplome:
+      disabled_actions:
+      class: AppBundle\Entity\Diplome
+      label: 'Diplome'
+      list:
+        actions:
+          - { name: 'show', icon: 'search', label: 'Rech' }
+          - { name: 'edit', icon: 'pencil', label: 'Modif' }
+          - { name: 'delete', icon: 'remove', label: 'Suppr' }
+
+        title: "Liste des Diplomes"
+        fields: ['numeroDiplome', 'nature', { property: 'dateDelivrance', type: 'datetime' }, 'etudiant', { property: 'fichdiplomes', label: 'Diplome', type: 'file', base_path: 'http://localhost/baseetudiantV12/web/uploads/diplomes/fichier'}]
+      show:
+        title: "Diplome"
+      form:
+        title: "Creation d'un nouveau diplome"
+        form_options: { validation_groups: ['Default'] }
+        fields:
+          - { property: 'etudiant'}
+          - { property: 'numeroDiplome'}
+          - { property: 'nature',}
+          - { property: 'fichdiplomesFile', type: 'vich_file' }
+          - { property: 'dateDelivrance', type: 'date', type_options: { widget: 'single_text' }}
+
+      new :
+        title: "Creation d'un nouveau Diplome"
+
+      edit:
+        title: "Modification Diplome"
+        form:
+            fields: ['numeroDiplome', 'nature', { property: 'dateDelivrance', type: 'datetime' }, 'etudiant', { property: 'fichdiplomesFile', label: 'Diplome', type: 'vich_file' , base_path: 'http://localhost/baseetudiant/web/%app.path.diplomes_fichdiplomes%'}]
+
+
+    Certificat:
+      class: AppBundle\Entity\Certificat
+      label: 'Certificat'
+      list:
+        actions:
+          - { name: 'show', icon: 'search', label: 'Rech' }
+          - { name: 'edit', icon: 'pencil', label: 'Modif' }
+          - { name: 'delete', icon: 'remove', label: 'Suppr' }
+
+        title: "Liste des certificats"
+      show:
+        title: "Certificat"
+      new :
+        title: "Creation d'un nouveau certificat"
+
+    Utilisateur:
+      class: AppBundle\Entity\Utilisateur
+      list:
+        actions:
+          - { name: 'show', icon: 'search', label: 'Rech' }
+          - { name: 'edit', icon: 'pencil', label: 'Modif' }
+          - { name: 'delete', icon: 'pencil', label: 'Suppr' }
+
+        title: "Liste des Utilisateurs"
+        fields: ['username',{ property: 'nomUtiliwsateur', label: 'nom Utilisateur'}, 'email', { property: 'enabled', label: 'Actif' }, 'etudiant', 'roles']
+      show:
+        title: "Detail du compte"
+        fields: ['username',{ property: 'nomUtiliwsateur', label: 'nom Utilisateur'}, 'email', { property: 'enabled', label: 'Actif' }, 'etudiant', 'roles']
+
+      form:
+        fields:
+          - username
+          - { property: 'nomUtiliwsateur', label: 'nom Utilisateur'}
+          - email
+          - etudiant
+          - enabled
+          # if administrators are allowed to edit users' passwords and roles, add this:
+          - { property: 'plainPassword', label: 'Mot de Passe', type: 'password', type_options: { required: true } }
+          - { property: 'roles', type: 'choice', type_options: { multiple: true, choices: { 'ROLE_ETUDIANT': 'ROLE_ETUDIANT', 'ROLE_ADMIN': 'ROLE_ADMIN','ROLE_ENTREPRISE': 'ROLE_ENTREPRISE' } } }
+  site_name: "UNB LIVE-REZO"

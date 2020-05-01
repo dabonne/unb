@@ -1,0 +1,100 @@
+{% extends 'index.html.twig' %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <style>
+        main{
+            padding-left: 0;
+        }
+    </style>
+{% endblock %}
+
+{% block body %}
+    {% block header %}
+        {{ parent() }}
+    {% endblock %}
+    {% block content %}
+        {{ parent() }}
+        <main class="pt-5 mx-lg-6">
+            <div class="container-fluid mt-5">
+                <div class="card card-cascade narrower mb-4">
+                    <div class="view view-cascade py-3 gradient-card-header info-color-dark mx-4 d-flex justify-content-between align-items-center">
+                        <a href="" class="white-text mx-3">Mon Experience Pro</a>
+                        <a href="{{ path('entreprise_index') }}" class="btn btn-sm btn-info ">
+                            <i class="fas fa-list"></i> Voire la liste
+                        </a>
+                        <a href="{{ path('entreprise_new') }}" class="btn btn-sm btn-info ml-2">
+                            <i class="fas fa-plus-circle"></i> Ajoueter
+                        </a>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table id="table_id" class="table text-rap" >
+                                <thead style="background-color: lightseagreen;">
+                                <tr>
+                                    <th style="color: white">Nom</th>
+                                    <th style="color: white">Pays</th>
+                                    <th style="color: white">Ville</th>
+                                    <th style="color: white">Post</th>
+                                    <th style="color: white">Codepostal</th>
+                                    <th style="color: white">Telephone</th>
+                                    <th style="color: white">Email</th>
+                                    <th style="color: white">Siteinternet</th>
+                                    <th style="color: white">Actions</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                {% for entreprise in entreprises %}
+                                    <tr>
+                                        <td>{{ entreprise.nom }}</td>
+                                        <td>{{ entreprise.pays }}</td>
+                                        <td>{{ entreprise.ville }}</td>
+                                        <td>{{ entreprise.post }}</td>
+                                        <td>{{ entreprise.codePostal }}</td>
+                                        <td>{{ entreprise.telephone }}</td>
+                                        <td>{{ entreprise.email }}</td>
+                                        <td><a href="http://{{ entreprise.siteInternet }}">{{ entreprise.siteInternet }}</a></td>
+                                        <td id="{{ entreprise.id }}">
+                                            <ul class="list-unstyled list-group list-group-horizontal">
+                                                <li class="">
+                                                    <a class="btn btn-sm btn-success ml-2 px-2" href="{{ path('entreprise_edit', { 'id': entreprise.id }) }}"><i class="fas fa-edit" style="color: white"></i></a>
+                                                </li>
+                                                <li class="">
+                                                    <a class="btn btn-sm btn-danger ml-2 px-2 suprimer"><i class="fas fa-trash"></i></a>
+                                                </li>
+                                            </ul>
+
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                        <hr class="my-0">
+                        <div class=" navigation" align="center" style="margin: 2% 0 2% 35%">
+                            {{ knp_pagination_render(entreprises) }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    {% endblock %}
+{% endblock %}
+{% block javascripts %}
+
+    {{ parent() }}
+    <script>
+        $(document).ready(function () {
+            $('#table_id').DataTable({
+                "language": {
+                    "url": "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/French.json",
+                    scrollY: 400
+                }
+            });
+           $('.suprimer').click(function (e) {
+               e.preventDefault;
+               $(location).attr('href', Routing.generate('entreprise_delete',{'id':$(this).parent().parent().parent().attr('id')}))
+           });
+        });
+    </script>
+{% endblock %}

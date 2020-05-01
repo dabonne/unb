@@ -1,0 +1,154 @@
+{% extends 'principale.html.twig' %}
+
+{% block stylesheets %}
+    {{ parent() }}
+{% endblock %}
+
+{% block body %}
+    {% block header %}
+        {{ parent() }}
+    {% endblock %}
+    {% block content %}
+        {{ parent() }}
+        <style>
+            .th_table{
+                color: white;
+                text-align: center;
+            }
+            .td_table{
+                text-align: center;
+            }
+        </style>
+        <main class="pt-5 mx-lg-6">
+            <div class="container-fluid mt-5">
+                <div class="card card-cascade narrower mb-4">
+                    <div class="view view-cascade py-3 gradient-card-header info-color-dark mx-4 d-flex justify-content-between align-items-center">
+                        <a href="" class="white-text mx-3">Annonces Modifier</a>
+                        <a href="{{ path('annonce_index_admin') }}" class="btn btn-sm btn-info ">
+                            <i class="fas fa-list"></i> Voire la liste
+                        </a>
+                        <a href="{{ path('annonce_new') }}" class="btn btn-sm btn-info ml-2">
+                            <i class="fas fa-plus-circle"></i> Ajoueter
+                        </a>
+                    </div>
+                    <div class="card-body">
+                        <div class="table">
+                            <table id="" class="table table-hover table-fixed">
+                                <thead style="background-color: lightseagreen;">
+                                <tr class="">
+                                    <th class="th_table"> Objet</th>
+                                    <th class="th_table"> Information</th>
+                                    <th class="th_table"> Date Publication</th>
+                                    <th class="th_table"> Fin Annonce</th>
+                                    <th class="th_table"> Options</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td class="td_table">{{ annonce.intitule }}</td>
+                                        <td class="td_table">{{ annonce.information }}</td>
+                                        <td class="td_table">{{ annonce.date |date('d-m-Y') }}</td>
+                                        <td class="td_table">{{ annonce.dateFin |date('d-m-Y') }}</td>
+                                        <td id="{{ annonce.id }}" class="">
+                                            <ul class="list-unstyled list-group list-group-horizontal" style=";padding-left: 25%">
+                                                <li class="">
+                                                    <a class="btn btn-sm btn-success ml-2 px-2" href="{{ path('annonce_edit', { 'id': annonce.id }) }}"><i class="fas fa-edit" style="color: white"></i></a>
+                                                </li>
+                                                <li class="">
+                                                    <a class="btn btn-sm btn-danger ml-2 px-2 suprimer"><i class="fas fa-remove"></i></a>
+                                                </li>
+                                            </ul>
+
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <hr class="my-0">
+                    </div>
+                </div>
+            </div>
+        </main>
+    {% endblock %}
+{% endblock %}
+{% block javascripts %}
+    {{ parent() }}
+    <script>
+        $(document).ready(function () {
+            $('#table_id').DataTable({
+                "language": {
+                    "url": "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/French.json",
+                    scrollY: 400
+                }
+            });
+            var etudiant = $('#idEtudiant').text();
+            $('.datepiker').datepicker({
+                uiLibrary: 'bootstrap4'
+            });
+            $('#form_diplome').on('submit', function (e) {
+                e.preventDefault();
+                $.ajax({
+                    type:'POST',
+                    data:$(this).serialize(),
+                    dataType: 'JSON',
+                    url: Routing.generate('diplome_etudiant')
+                }).done(function (data) {
+                    if(data === 'ok')
+                    {
+                        alert('Diplome ajouter avec succes');
+                        $(location).attr('href',Routing.generate('etudiant_show',{'id':etudiant}));
+                    }else if(data === 'Nok') alert('Impossible d\'ajouter le diplome');
+                })
+            });
+
+            $('#form_experience').on('submit', function (e) {
+                e.preventDefault();
+                $.ajax({
+                    type:'POST',
+                    data:$(this).serialize(),
+                    dataType: 'JSON',
+                    url: Routing.generate('entreprise_etudiant')
+                }).done(function (data) {
+                    if(data === 'ok')
+                    {
+                        alert('Entreprise ajouter avec succes');
+                        $(location).attr('href',Routing.generate('etudiant_show',{'id':etudiant}));
+                    }else if(data === 'Nok') alert('Impossible d\'ajouter l\'entreprise');
+                })
+            });
+
+            $('#form_photo').on('submit', function (e) {
+                e.preventDefault();
+                $.ajax({
+                    type:'POST',
+                    data:$(this).serialize(),
+                    dataType: 'JSON',
+                    url: Routing.generate('etudiant_addPhoto')
+                }).done(function (data) {
+                    if(data === 'ok')
+                    {
+                        alert('Photo modifier');
+                    }else if(data === 'Nok') alert('Impossible de modifier la photo');
+                })
+            });
+
+            $('#form_certificat').on('submit', function (e) {
+                e.preventDefault();
+                $.ajax({
+                    type:'POST',
+                    data:$(this).serialize(),
+                    dataType: 'JSON',
+                    url: Routing.generate('certificat_etudiant')
+                }).done(function (data) {
+                    if(data === 'ok')
+                    {
+                        alert('Certificat ajouter avec succes');
+                        $(location).attr('href',Routing.generate('etudiant_show',{'id':etudiant}));
+                    }
+                })
+            });
+        });
+    </script>
+{% endblock %}
+
+
