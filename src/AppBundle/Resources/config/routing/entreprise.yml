@@ -3,6 +3,12 @@ entreprise_index:
     defaults: { _controller: "AppBundle:Entreprise:index" }
     methods:  GET
 
+entreprise_erreur:
+    path:     /erreur
+    defaults: { _controller: "AppBundle:Entreprise:erreur" }
+    methods:  GET
+
+
 entreprise_etudiant:
     path:     /EtudiantEntreprise
     defaults: { _controller: "AppBundle:Entreprise:newEtudiantEntreprise" }

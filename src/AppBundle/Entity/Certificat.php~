@@ -2,13 +2,19 @@
 
 namespace AppBundle\Entity;
 
+use Vich\UploaderBundle\Mapping\Annotation as Vich;
+use Symfony\Component\HttpFoundation\File\File;
+use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+
 
 /**
  * Certificat
  *
  * @ORM\Table(name="certificat")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\CertificatRepository")
+ * @UniqueEntity(fields="numeroCertificat", message="un autre certificat porte le meme numero !")
  */
 class Certificat
 {
@@ -29,6 +35,13 @@ class Certificat
      * @var string
      *
      * @ORM\Column(name="abreviation", type="string", length=50, unique=false)
+     * @Assert\NotBlank(message="Ce champs est obligatoire !")
+     * @Assert\Length(
+     *      min = 2,
+     *      max = 20,
+     *      minMessage = "L'intitule de votre certificat/diplome est court il doit avoir au moins {{ limit }} caracters",
+     *      maxMessage = "L'intitule de votre certificat/diplome est trop long il doit avoir au plus {{ limit }} caracters"
+     * )
      */
     private $abreviation;
 
@@ -36,6 +49,13 @@ class Certificat
      * @var string
      *
      * @ORM\Column(name="intitule", type="string", length=255, unique=false)
+     * @Assert\NotBlank(message="Ce champs est obligatoire !")
+     * @Assert\Length(
+     *      min = 5,
+     *      max = 200,
+     *      minMessage = "L'intitule de votre certificat/diplome est court il doit avoir au moins {{ limit }} caracters",
+     *      maxMessage = "L'intitule de votre certificat/diplome est trop long il doit avoir au plus {{ limit }} caracters"
+     * )
      */
     private $intitule;
 
@@ -43,6 +63,14 @@ class Certificat
      * @var string
      *
      * @ORM\Column(name="fondation", type="string", length=255, unique=false)
+     *
+     * @Assert\NotBlank(message="Ce champs est obligatoire !")
+     * @Assert\Length(
+     *      min = 2,
+     *      max = 200,
+     *      minMessage = "Le nom est court il doit avoir au moins {{ limit }} caracters",
+     *      maxMessage = "Le nom est trop long il doit avoir au plus {{ limit }} caracters"
+     * )
      */
     private $fondation;
 
@@ -50,15 +78,54 @@ class Certificat
      * @var string
      *
      * @ORM\Column(name="nomeroDiplome", type="string", length=100, unique=true)
+     *
+     * @Assert\NotBlank(message="Ce champs est obligatoire !")
+     * @Assert\Length(
+     *      min = 4,
+     *      max = 200,
+     *      minMessage = "Le numero est court il doit avoir au moins {{ limit }} caracters",
+     *      maxMessage = "Le numero est trop long il doit avoir au plus {{ limit }} caracters"
+     * )
      */
     private $numeroCertificat;
 
     /**
      * @var \DateTime
-     *
      * @ORM\Column(name="date", type="datetime")
      */
     private $dateDelivrance;
+
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     * @var string
+     */
+    private $fichCertificats;
+
+    /**
+     * @Vich\UploadableField(mapping="diplomes_fichdiplomes",  fileNameProperty="fichdiplomes")
+     * @var File
+     */
+    private $fichCertificatsFile;
+
+    public function setFichCertificatsFile( File $fichCertificats = null)
+    {
+        $this->fichCertificatsFile = $fichCertificats;
+
+        // VERY IMPORTANT:
+        // It is required that at least one field changes if you are using Doctrine,
+        // otherwise the event listeners won't be called and the file is lost
+        if ($fichCertificats) {
+            // if 'updatedAt' is not defined in your entity, use another property
+            $this->updatedAt = new \DateTime('now');
+        }
+    }
+
+    public function getCertificatsFile()
+    {
+        return $this->fichCertificatsFile;
+    }
+
 
     /**
      * Get id
@@ -195,4 +262,44 @@ class Certificat
     {
         return $this->dateDelivrance;
     }
+
+    /**
+     * Set abreviation
+     *
+     * @param string $abreviation
+     *
+     * @return Certificat
+     */
+    public function setAbreviation($abreviation)
+    {
+        $this->abreviation = $abreviation;
+
+        return $this;
+    }
+
+    /**
+     * Get abreviation
+     *
+     * @return string
+     */
+    public function getAbreviation()
+    {
+        return $this->abreviation;
+    }
+
+    /**
+     * Set fichdiplomes
+     *
+     * @param string $fichdiplomes
+     *
+     * @return Certificat
+     */
+    public function setFichdiplomes($fichdiplomes)
+    {
+        $this->fichdiplomes = $fichdiplomes;
+    
+        return $this;
+    }
+
+
 }

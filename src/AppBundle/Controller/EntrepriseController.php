@@ -47,12 +47,16 @@ class EntrepriseController extends Controller
             'user'=>$user
         ));
     }
-
-
     /**
- * Lists all entreprise entities.
- *
- */
+     * Lists all entreprise entities.
+     *
+     */
+
+
+    public function erreurAction(Request $request){
+        return $this->render('entreprise/erreurEntreprise.html.twig');
+    }
+
     public function principalAction(Request $request)
     {
         if (!$this->get('security.authorization_checker')->isGranted('ROLE_USER')) {

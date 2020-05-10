@@ -5,7 +5,7 @@ security:
 
     role_hierarchy:
         ROLE_ADMIN: ROLE_USER
-        ROLE_ENTREPRISE: ROLE_ENTREPRISE
+        ROLE_ENTREPRISE: ROLE_PARTENAIRE
         ROLE_SUPER_ADMIN: ROLE_ADMIN
     providers:
         fos_userbundle:

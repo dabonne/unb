@@ -24,13 +24,13 @@
         <!-- Left -->
         <ul class="navbar-nav mr-auto">
           <li class="nav-item">
-            <a class="nav-link waves-effect" href="{{ path('diplome_index') }}"><span style="color: orange">Diplomes </span><i class="material-icons mdl-badge mdl-badge--overlap fas fa-graduation-cap " data-badge="{% if quantD is not null %}{{  quantD.quantDiplome }} {% else %}0{% endif %}"></i>
+            <a class="nav-link waves-effect" href="{{ path('diplome_index') }}"><span style="color: orange">Diplomes </span><i class="material-icons mdl-badge mdl-badge--overlap fas fa-graduation-cap " data-badge="{#% if quantD is not null %}{{  quantD.quantDiplome }} {% else %}0{% endif #}"></i>
               <span class="sr-only">(current)</span>
             </a>
           </li>
 
           <li class="nav-item">
-            <a class="nav-link waves-effect" href="{{ path('certificat_index') }}"><span style="color: orange">Certificats </span><i class="material-icons mdl-badge mdl-badge--overlap fas fa-graduation-cap " data-badge="{% if quantC is not null %}{{  quantC.quantCertificat }} {% else %}0{% endif %}" ></i>
+            <a class="nav-link waves-effect" href="{{ path('certificat_index') }}"><span style="color: orange">Certificats </span><i class="material-icons mdl-badge mdl-badge--overlap fas fa-graduation-cap " data-badge="{# if quantC is not null %}{{  quantC.quantCertificat }} {% else %}0{% endif #}" ></i>
             </a>
           </li>
           <li class="nav-item">
@@ -43,7 +43,7 @@
             </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link waves-effect" href="{{ path('etudiant_show_etudiant',{'id':etudiant.id}) }}">
+            <a class="nav-link waves-effect" href="#">
               <span style="color: orange">Presentation</span>
               <i class="material-icons fas fa-user-tie">
               </i>
@@ -69,7 +69,7 @@
                 <i class="material-icons fas fa-user"></i>
                 <span style="color: orange">Mon Compte</span>
               </a>
-              <a class="nav-link waves-effect dropdown-item" href="{{ path('etudiant_edit',{'id':etudiant.id}) }}">
+              <a class="nav-link waves-effect dropdown-item" href="#">
                 <i class="fas fa-user-cog material-icons"></i>
                 <span style="color: orange">Modifier Infos</span>
               </a>

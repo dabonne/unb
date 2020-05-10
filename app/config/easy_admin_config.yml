@@ -4,16 +4,20 @@ easy_admin:
     max_results: 20
   design:
     brand_color: 'orange'
+    assets:
+      favicon: '/assets/backend/favicon.png'
+
     menu:
       - label: 'UNB'
         children: ['Universite','Etablissement',]
       - label: 'Formations'
         children: ['Diplome','Certificat','Nature']
       - label: 'Etudiants & Entreprise'
-        children: ['Etudiant','Entreprise']
+        children: ['Etudiant','Entreprise','Partenaire']
       - label: 'Comptes Utilisateurs'
         children: ['Utilisateur']
-      - { label: 'Annonces', route: 'annonce_index_admin' }
+      - label: 'Annonces'
+        children: ['Annonce']
 
   formats:
     date:     'd-m-Y'
@@ -88,7 +92,7 @@ easy_admin:
         sort: 'nom'
       show:
         title: "Etudiant"
-        fields: [{ property: 'image', type: 'image', base_path: '%app.path.etudiants_image%' },'matricule', 'nom' , 'prenom' , 'promotion', 'diplomes', 'etablissement',{ property: 'email', type: 'email' },{ property: 'user', label: 'Compte Utilisateur' },'diplomes', 'certificats', 'entreprises']
+        fields: [{ property: 'image', type: 'image', base_path: '%app.path.etudiants_image%' },'matricule', 'nom' , 'prenom' , 'promotion', 'diplomes', 'etablissement',{ property: 'email', type: 'email' },{ property: 'user', label: 'Compte Utilisateur' },'diplomes', 'certificats', 'entreprises_etudiant']
       new :
         title: "Ajout d'un etudiant a la base"
       form:
@@ -104,7 +108,6 @@ easy_admin:
             - diplomes
             #- { property: 'cvFile', type: 'vich_file',label: 'CV' }
             - { type: 'group', css_class: 'col-sm-5', label: 'Experiences Professionnelles' }
-            - entrepriseEtudiants
             - { type: 'group', label: 'Contacts', icon: 'phone ', css_class: 'col-sm-7' }
             - email
             - telephone
@@ -131,6 +134,7 @@ easy_admin:
     Entreprise:
       class: AppBundle\Entity\Entreprise
       label: 'Entreprise'
+      disabled_actions: ['new']
       list:
         actions:
           - { name: 'show', icon: 'search', label: 'Rech' }
@@ -167,6 +171,35 @@ easy_admin:
             - email
             - siteInternet
 
+    Partenaire:
+        class: AppBundle\Entity\Partenaire
+        label: 'Partenaire'
+        list:
+            actions:
+                - { name: 'show', icon: 'search', label: 'Rech' }
+                - { name: 'edit', icon: 'pencil', label: 'Modif' }
+                - { name: 'delete', icon: 'remove', label: 'Suppr' }
+            title: "Partenaires"
+            fields: ['nom' , 'ville' , 'pays','type','domaine', 'telephone',{ property: 'email', type: 'email' }]
+        show:
+            title: "Partenaire"
+            fields: ['nom' , 'ville' , 'pays','type','domaine','dateConvention', 'telephone',{ property: 'email', type: 'email' }, { property: 'siteInternet', type: 'url'}]
+        form:
+            fields:
+                - { type: 'group', css_class: 'col-sm-12', icon: 'info', label: 'Information Generale' }
+                - nom
+                - {property: 'type', type: 'choice', type_options: { multiple: false, choices: { 'Publique': 'Publique', 'Prive': 'Prive','Semi-publique': 'Semi-publique' } }}
+                - domaine
+                - dateConvention
+                - {property: 'statusEntreprise' , type: 'choice', type_options: { multiple: false, choices: { 'SARL': 'SARL', 'SA': 'SA','Entreprise individuelle': 'Entreprise individuelle','EIRL': 'EIRL','EURL': 'EURL','SAS et SASU': 'SAS et SASU' ,'SNC': 'SNC'    } }}
+                - { type: 'group', css_class: 'col-sm-12', icon: 'address-book', label: 'Adresse' }
+                - telephone
+                - {property: 'email', type: 'email'}
+                - siteInternet
+                - ville
+                - pays
+
+
 
     Nature:
       class: AppBundle\Entity\Nature
@@ -191,7 +224,6 @@ easy_admin:
           - { property: 'dateCreation', type: 'date', type_options: { widget: 'single_text' }}
           - { property: 'etablissement'}
     Diplome:
-      disabled_actions:
       class: AppBundle\Entity\Diplome
       label: 'Diplome'
       list:
@@ -201,15 +233,17 @@ easy_admin:
           - { name: 'delete', icon: 'remove', label: 'Suppr' }
 
         title: "Liste des Diplomes"
-        fields: ['numeroDiplome', 'nature', { property: 'dateDelivrance', type: 'datetime' }, 'etudiant', { property: 'fichdiplomes', label: 'Diplome', type: 'file', base_path: 'http://localhost/baseetudiantV12/web/uploads/diplomes/fichier'}]
+        fields: ['numeroDiplome', 'nature', 'type',{ property: 'dateDelivrance', type: 'datetime' }, 'etudiant', { property: 'fichdiplomes', label: 'Diplome', type: 'file', base_path: '../web/uploads/diplomes/fichier'}]
       show:
         title: "Diplome"
+        fields: ['numeroDiplome', 'nature','type', { property: 'dateDelivrance', type: 'datetime' }, 'etudiant', { property: 'fichdiplomes', label: 'Diplome', type: 'file', base_path: '../web/uploads/diplomes/fichier'}]
       form:
         title: "Creation d'un nouveau diplome"
         form_options: { validation_groups: ['Default'] }
         fields:
           - { property: 'etudiant'}
           - { property: 'numeroDiplome'}
+          - {property: 'type',type: 'choice', type_options: { multiple: false, choices: {'Provisoire': 'Provisoire','Definitif': 'Definitif' } }}
           - { property: 'nature',}
           - { property: 'fichdiplomesFile', type: 'vich_file' }
           - { property: 'dateDelivrance', type: 'date', type_options: { widget: 'single_text' }}
@@ -224,6 +258,7 @@ easy_admin:
 
 
     Certificat:
+      disabled_actions: ['new']
       class: AppBundle\Entity\Certificat
       label: 'Certificat'
       list:
@@ -231,10 +266,12 @@ easy_admin:
           - { name: 'show', icon: 'search', label: 'Rech' }
           - { name: 'edit', icon: 'pencil', label: 'Modif' }
           - { name: 'delete', icon: 'remove', label: 'Suppr' }
+        fields: ['numeroCertificat', 'abreviation', 'intitule', 'etudiant', {property: 'fondation', label: 'Organisme'},{ property: 'dateDelivrance', type: 'datetime' }, { property: 'fichCerticat', label: 'Diplome', type: 'file', base_path: '../web/uploads/diplomes/fichier'}]
 
         title: "Liste des certificats"
       show:
         title: "Certificat"
+        fields: ['numeroCertificat', 'abreviation', 'intitule', 'etudiant', {property: 'fondation', label: 'Organisme'},{ property: 'dateDelivrance', type: 'datetime' }, { property: 'fichCertificat', label: 'Diplome', type: 'file', base_path: '../web/uploads/certificats/fichier'}]
       new :
         title: "Creation d'un nouveau certificat"
 
@@ -258,8 +295,51 @@ easy_admin:
           - { property: 'nomUtiliwsateur', label: 'nom Utilisateur'}
           - email
           - etudiant
+          - partenaire
           - enabled
           # if administrators are allowed to edit users' passwords and roles, add this:
           - { property: 'plainPassword', label: 'Mot de Passe', type: 'password', type_options: { required: true } }
-          - { property: 'roles', type: 'choice', type_options: { multiple: true, choices: { 'ROLE_ETUDIANT': 'ROLE_ETUDIANT', 'ROLE_ADMIN': 'ROLE_ADMIN','ROLE_ENTREPRISE': 'ROLE_ENTREPRISE' } } }
+          - { property: 'roles', type: 'choice', type_options: { multiple: true, choices: { 'ROLE_ETUDIANT': 'ROLE_ETUDIANT', 'ROLE_ADMIN': 'ROLE_ADMIN','ROLE_ENTREPRISE': 'ROLE_PARTENAIRE' } } }
+
+    Annonce:
+        class: AppBundle\Entity\Annonce
+        list:
+            actions:
+                - { name: 'show', icon: 'search', label: 'Plus' }
+                - { name: 'edit', icon: 'pencil', label: 'Modif' }
+                - { name: 'delete', icon: 'pencil', label: 'Suppr' }
+
+            title: "Liste des Annonces"
+            fields: [{ property: 'intitule', label: 'Objet'},{ property: 'date', label: 'date publication'}, { property: 'dateFin', label: 'Validite' } {property: 'fichannonces', label: 'Piece-joint', base_path:}]
+        show:
+            title: "Detail de l'annonce"
+            fields: [{ property: 'intitule', label: 'Objet'},{ property: 'date', label: 'date publication'}, { property: 'dateFin', label: 'Validite' }{property: 'fichannonces', label: 'Piece-joint', base_path: '../web/uploads/annonces/fichier'} ,{ property: 'information', label: 'Message'}]
+        new:
+            title: 'Ajouter une annonce'
+            fields:
+                - { type: 'group', css_class: 'col-lg-12', icon: 'user', label: 'Informations'}
+
+                - { property: 'intitule', type: 'text', label: 'Objet' ,  help: 'Objet du mail'}
+                - { property: 'natures', label: 'Destinataires' , type_options: { required: true },  help: 'Parcourts concernes'}
+                - { property: 'dateFin', type: 'date', label: 'Validite' , help: 'Date de validite annonce'}
+
+                - { type: 'group', css_class: 'col-lg-12', icon: 'envelop',label: 'Votre message' }
+
+                - { property: 'information', type: 'textarea', label: 'Message' , icon: 'envelop' ,  help: 'Le corp du mail'}
+                - { property: 'fichAnnonces', type: 'file', label: 'Piece-joint', icon: 'file' ,  help: 'Le fichier joint au mail'}
+        edit:
+           title: 'Modifier Annonce'
+           fields:
+                - { type: 'group', css_class: 'col-lg-12', icon: 'user', label: 'Informations'}
+
+                - { property: 'intitule', type: 'text', label: 'Objet' ,  help: 'Objet du mail'}
+                - { property: 'natures', label: 'Destinataires' , type_options: { required: true },  help: 'Parcourts concernes'}
+                - { property: 'dateFin', label: 'Validite' , icon: 'envelop' ,  help: 'Date de validite '}
+
+                - { type: 'group', css_class: 'col-lg-12', icon: 'envelop',label: 'Votre message' }
+
+                - { property: 'information',label: 'Message' , icon: 'envelop' ,  help: 'Le corp du mail'}
+                - fichAnnonces
+
+
   site_name: "UNB LIVE-REZO"

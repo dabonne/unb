@@ -28,17 +28,17 @@ class DiplomeController extends Controller
         $em = $this->getDoctrine()->getManager();
         $user = $this->getUser();
         $etudiant = $this->getUser()->getEtudiant();
-        $diplomes = $em->getRepository('AppBundle:Diplome')->findBy(array('etudiant' =>$etudiant->getId()));
+        $diplomes = 0;//$em->getRepository('AppBundle:Diplome')->findBy(array('etudiant' =>$etudiant->getId()));
         $qantC= $em->getRepository('AppBundle:Certificat')->countByetudiant($etudiant);
         $qantD= $em->getRepository('AppBundle:Diplome')->countByetudiant($etudiant);
         //$qantE= $em->getRepository('AppBundle:Entreprise')->countByetudiant($etudiant);
 
         return $this->render('diplome/index.html.twig', array(
-            'diplomes' => $diplomes,
-            'etudiant' =>$etudiant,
-            'quantC' =>$qantC,
+            'diplomes' => 0,//$diplomes,
+            'etudiant' => 0,//$etudiant,
+            'quantC' => 0,//$qantC,
             //'quantE' =>$qantE,
-            'quantD' =>$qantD,
+            'quantD' =>0, //$qantD,
             'user' => $user
         ));
     }

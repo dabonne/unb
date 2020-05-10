@@ -3,6 +3,7 @@
 namespace AppBundle\Entity;
 
 use FOS\UserBundle\Model\User as FosUser;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -10,6 +11,10 @@ use Doctrine\ORM\Mapping as ORM;
  *
  * @ORM\Table(name="utilisateur")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\UtilisateurRepository")
+ * @UniqueEntity(fields="nomUtiliwsateur", message="Un compte avec le meme nom existe deja !")
+ * @UniqueEntity(fields="username", message="Un compte avec le meme nom utilisateur existe deja !")
+ * @UniqueEntity(fields="email", message="Un compte avec le meme email existe deja !")
+ * @UniqueEntity(fields="etudiant", message="Ce etudiant a un compte")
  */
 class Utilisateur extends FosUser
 {
@@ -17,6 +22,12 @@ class Utilisateur extends FosUser
      * @ORM\OneToOne(targetEntity="AppBundle\Entity\Etudiant")
      */
     private $etudiant;
+
+    /**
+     * @ORM\OneToOne(targetEntity="AppBundle\Entity\Partenaire")
+     */
+    private $partenaire;
+
 
     /**
      * @ORM\Id
@@ -151,5 +162,35 @@ class Utilisateur extends FosUser
     public function getFacebookAccessToken()
     {
         return $this->facebook_access_token;
+    }
+
+    /**
+     * Set partenaire
+     *
+     * @param \AppBundle\Entity\Partenaire $partenaire
+     *
+     * @return Utilisateur
+     */
+    public function setPartenaire(\AppBundle\Entity\Partenaire $partenaire = null)
+    {
+        $this->Partenaire = $partenaire;
+    
+        return $this;
+    }
+
+
+    /**
+     * Get partenaire
+     *
+     * @return \AppBundle\Entity\Partenaire
+     */
+    public function getPartenaire()
+    {
+        return $this->partenaire;
+    }
+
+    public function __toString()
+    {
+        return $this->getEmail();
     }
 }

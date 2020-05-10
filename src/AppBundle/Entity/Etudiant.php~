@@ -25,11 +25,6 @@ class Etudiant
     private $diplomes;
 
     /**
-     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Entreprise_etudiant" , mappedBy="etudiants")
-     */
-    private $entrepriseEtudiants;
-
-    /**
      * @ORM\OneToMany(targetEntity="AppBundle\Entity\Certificat" , mappedBy="etudiant")
      */
     private $certificats;

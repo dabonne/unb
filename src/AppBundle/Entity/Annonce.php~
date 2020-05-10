@@ -69,7 +69,7 @@ class Annonce
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="date", type="date")
+     * @ORM\Column(name="date", type="date", nullable=true)
      */
     private $date;
 
@@ -83,33 +83,33 @@ class Annonce
 
 
     /**
-     * @ORM\Column(type="string", length=255, nullable=true)
+     * @ORM\Column(type="string", length=255)
      * @var string
      */
-    private $piece;
+    private $fichannonces;
 
     /**
-     * @Vich\UploadableField(mapping="annonces_pieces", fileNameProperty="piece")
+     * @Vich\UploadableField(mapping="annonces_fichannonces",  fileNameProperty="fichannonces")
      * @var File
      */
-    private $pieceFile;
+    private $fichannoncesFile;
 
-    public function setPieceFile(File $piece = null)
+    public function setFichannoncesFile( File $fichannonces = null)
     {
-        $this->pieceFile = $piece;
+        $this->fichdiplomesFile = $fichannonces;
 
         // VERY IMPORTANT:
         // It is required that at least one field changes if you are using Doctrine,
         // otherwise the event listeners won't be called and the file is lost
-        if ($piece) {
+        if ($fichannonces) {
             // if 'updatedAt' is not defined in your entity, use another property
             $this->updatedAt = new \DateTime('now');
         }
     }
 
-    public function getPieceFile()
+    public function getFichannoncesFile()
     {
-        return $this->pieceFile;
+        return $this->fichannoncesFile;
     }
 
 
@@ -286,27 +286,6 @@ class Annonce
         return $this->natures;
     }
 
-    /**
-     * Set pieces
-     *
-     * @param string $pieces
-     *
-     * @return Annonce
-     */
-    public function setPiece($piece)
-    {
-        $this->piece = $piece;
 
-        return $this;
-    }
 
-    /**
-     * Get pieces
-     *
-     * @return string
-     */
-    public function getPiece()
-    {
-        return $this->piece;
-    }
 }

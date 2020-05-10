@@ -2,7 +2,8 @@
 
 namespace AppBundle\Entity;
 
-
+use Vich\UploaderBundle\Mapping\Annotation as Vich;
+use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
@@ -93,6 +94,38 @@ class Certificat
      * @ORM\Column(name="date", type="datetime")
      */
     private $dateDelivrance;
+
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     * @var string
+     */
+    private $fichCertificats;
+
+    /**
+     * @Vich\UploadableField(mapping="diplomes_fichdiplomes",  fileNameProperty="fichdiplomes")
+     * @var File
+     */
+    private $fichCertificatsFile;
+
+    public function setFichCertificatsFile( File $fichCertificats = null)
+    {
+        $this->fichCertificatsFile = $fichCertificats;
+
+        // VERY IMPORTANT:
+        // It is required that at least one field changes if you are using Doctrine,
+        // otherwise the event listeners won't be called and the file is lost
+        if ($fichCertificats) {
+            // if 'updatedAt' is not defined in your entity, use another property
+            $this->updatedAt = new \DateTime('now');
+        }
+    }
+
+    public function getCertificatsFile()
+    {
+        return $this->fichCertificatsFile;
+    }
+
 
     /**
      * Get id
@@ -252,5 +285,45 @@ class Certificat
     public function getAbreviation()
     {
         return $this->abreviation;
+    }
+
+    /**
+     * Set fichdiplomes
+     *
+     * @param string $fichdiplomes
+     *
+     * @return Certificat
+     */
+    public function setFichdiplomes($fichdiplomes)
+    {
+        $this->fichdiplomes = $fichdiplomes;
+    
+        return $this;
+    }
+
+
+
+    /**
+     * Set fichCertificats
+     *
+     * @param string $fichCertificats
+     *
+     * @return Certificat
+     */
+    public function setFichCertificats($fichCertificats)
+    {
+        $this->fichCertificats = $fichCertificats;
+    
+        return $this;
+    }
+
+    /**
+     * Get fichCertificats
+     *
+     * @return string
+     */
+    public function getFichCertificats()
+    {
+        return $this->fichCertificats;
     }
 }

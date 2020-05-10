@@ -11,8 +11,10 @@ parameters:
     locale: fr
     app.path.etudiants_image: uploads/etudiants/avatar
     app.path.etudiants_cvs: uploads/etudiants/cv
-    app.path.annonces_pieces: uploads/annonces/pieces
+    app.path.annonces_ficheannonces: uploads/annonces/pieces
     app.path.diplomes_fichdiplomes: uploads/diplomes/fichier
+    app.path.certificats_fichcertificats: uploads/certificats/fichier
+
 #app/config/config.yml
 fos_elastica:
     clients:
@@ -164,8 +166,8 @@ vich_uploader :
               inject_on_load: false
               delete_on_update: true
               delete_on_remove: true
-         annonces_pieces:
-              uri_prefix: '%app.path.annonces_pieces%'
+         annonces_fichannonces:
+              uri_prefix: '%app.path.annonces_ficheannonces%'
               upload_destination: '%kernel.root_dir%/../web/uploads/annonces/pieces'
               namer: vich_uploader.namer_uniqid
               inject_on_load: false
@@ -178,6 +180,13 @@ vich_uploader :
               inject_on_load: false
               delete_on_update: true
               delete_on_remove: true
+         certificats_fichcertificats:
+             uri_prefix: '%app.path.certificats_fichcertificats%'
+             upload_destination: '%kernel.root_dir%/../web/uploads/certificats/fichier'
+             namer: vich_uploader.namer_uniqid
+             inject_on_load: false
+             delete_on_update: true
+             delete_on_remove: true
 
 
 

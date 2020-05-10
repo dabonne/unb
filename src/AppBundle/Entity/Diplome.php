@@ -26,6 +26,20 @@ class Diplome
     private $nature;
 
     /**
+     * @var string
+     *
+     * @ORM\Column(name="type", type="string", length=255, unique=false)
+     * @Assert\NotBlank(message="Ce champs est obligatoire !")
+     * @Assert\Length(
+     *      min = 3,
+     *      max = 70,
+     *      minMessage = "Le type est trop court il doit avoir au moins {{ limit }} caracters",
+     *      maxMessage = "Le type est trop long il doit avoir au plus {{ limit }} caracters"
+     * )
+     */
+    private $type;
+
+    /**
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Etudiant" , inversedBy="diplomes")
      * @ORM\JoinColumn(unique=false)
      */
@@ -229,5 +243,29 @@ class Diplome
     public function getFichdiplomes()
     {
         return $this->fichdiplomes;
+    }
+
+    /**
+     * Set type
+     *
+     * @param string $type
+     *
+     * @return Diplome
+     */
+    public function setType($type)
+    {
+        $this->type = $type;
+    
+        return $this;
+    }
+
+    /**
+     * Get type
+     *
+     * @return string
+     */
+    public function getType()
+    {
+        return $this->type;
     }
 }

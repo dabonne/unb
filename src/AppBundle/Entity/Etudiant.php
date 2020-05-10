@@ -25,11 +25,6 @@ class Etudiant
     private $diplomes;
 
     /**
-     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Entreprise_etudiant" , mappedBy="etudiants")
-     */
-    private $entrepriseEtudiants;
-
-    /**
      * @ORM\OneToMany(targetEntity="AppBundle\Entity\Certificat" , mappedBy="etudiant")
      */
     private $certificats;
@@ -609,38 +604,4 @@ class Etudiant
         return $this->cv;
     }
 
-
-    /**
-     * Add entrepriseEtudiant
-     *
-     * @param \AppBundle\Entity\Entreprise_etudiant $entrepriseEtudiant
-     *
-     * @return Etudiant
-     */
-    public function addEntrepriseEtudiant(\AppBundle\Entity\Entreprise_etudiant $entrepriseEtudiant)
-    {
-        $this->entrepriseEtudiants[] = $entrepriseEtudiant;
-    
-        return $this;
-    }
-
-    /**
-     * Remove entrepriseEtudiant
-     *
-     * @param \AppBundle\Entity\Entreprise_etudiant $entrepriseEtudiant
-     */
-    public function removeEntrepriseEtudiant(\AppBundle\Entity\Entreprise_etudiant $entrepriseEtudiant)
-    {
-        $this->entrepriseEtudiants->removeElement($entrepriseEtudiant);
-    }
-
-    /**
-     * Get entrepriseEtudiants
-     *
-     * @return \Doctrine\Common\Collections\Collection
-     */
-    public function getEntrepriseEtudiants()
-    {
-        return $this->entrepriseEtudiants;
-    }
 }
