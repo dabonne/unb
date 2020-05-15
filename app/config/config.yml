@@ -11,27 +11,11 @@ parameters:
     locale: fr
     app.path.etudiants_image: uploads/etudiants/avatar
     app.path.etudiants_cvs: uploads/etudiants/cv
-    app.path.annonces_ficheannonces: uploads/annonces/pieces
+    app.path.annonces_attachements: uploads/annonces/pieces
     app.path.diplomes_fichdiplomes: uploads/diplomes/fichier
     app.path.certificats_fichcertificats: uploads/certificats/fichier
 
 #app/config/config.yml
-fos_elastica:
-    clients:
-        default: { host: localhost, port: 9200 }
-    indexes:
-        app:
-            types:
-                diplome:
-                    properties:
-                        dateDelivrance: ~
-                        numeroDiplome: ~
-                    persistence:
-                        # the driver can be orm, mongodb or phpcr
-                        driver: orm
-                        model: AppBundle:Diplome
-                        provider: ~
-                        finder: ~
 fos_js_routing:
      routes_to_expose: [ (.*) ]
 
@@ -161,13 +145,13 @@ vich_uploader :
              delete_on_remove: true
          etudiants_cvs:
               uri_prefix: '%app.path.etudiants_cvs%'
-              upload_destination: '%kernel.root_dir%/../web/uploads/etudiants/cv'
+              upload_destination: '%kernel.root_dir%/web/uploads/etudiants/cv'
               namer: vich_uploader.namer_uniqid
               inject_on_load: false
               delete_on_update: true
               delete_on_remove: true
-         annonces_fichannonces:
-              uri_prefix: '%app.path.annonces_ficheannonces%'
+         annonce_attachements:
+              uri_prefix: '%app.path.annonces_attachements%'
               upload_destination: '%kernel.root_dir%/../web/uploads/annonces/pieces'
               namer: vich_uploader.namer_uniqid
               inject_on_load: false

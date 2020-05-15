@@ -1,4 +1,15 @@
-<br>
-{{ message }}
-<br>
-<p>Merci de trouver le fichier joint en dessous</p>
+<table border="0" cellpadding="0" cellspacing="0">
+    <tbody><tr>
+        <td style="font-size: 0; line-height: 0;" width="20"> </td>
+        <td>
+            <br>
+            <h3 style="font-weight: bold">Ce message est valide jusqu'au {{ date | date('d-m-Y') }}</h3>
+            <br>
+            <br>
+            {{ message }}
+            <br>
+        </td>
+    </tr>
+    </tbody>
+</table>
+

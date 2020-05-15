@@ -228,38 +228,4 @@ class Nature
     {
         return $this->diplomes;
     }
-
-    /**
-     * Add annonce
-     *
-     * @param \AppBundle\Entity\Diplome $annonce
-     *
-     * @return Nature
-     */
-    public function addAnnonce(\AppBundle\Entity\Diplome $annonce)
-    {
-        $this->annonces[] = $annonce;
-    
-        return $this;
-    }
-
-    /**
-     * Remove annonce
-     *
-     * @param \AppBundle\Entity\Diplome $annonce
-     */
-    public function removeAnnonce(\AppBundle\Entity\Diplome $annonce)
-    {
-        $this->annonces->removeElement($annonce);
-    }
-
-    /**
-     * Get annonces
-     *
-     * @return \Doctrine\Common\Collections\Collection
-     */
-    public function getAnnonces()
-    {
-        return $this->annonces;
-    }
 }

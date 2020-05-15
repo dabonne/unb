@@ -1,7 +1,7 @@
 # app/config/config.yml
 easy_admin:
   list:
-    max_results: 20
+    max_results: 15
   design:
     brand_color: 'orange'
     assets:
@@ -303,6 +303,7 @@ easy_admin:
 
     Annonce:
         class: AppBundle\Entity\Annonce
+        controller: AppBundle\Controller\Annonce\AnnonceController
         list:
             actions:
                 - { name: 'show', icon: 'search', label: 'Plus' }
@@ -310,10 +311,10 @@ easy_admin:
                 - { name: 'delete', icon: 'pencil', label: 'Suppr' }
 
             title: "Liste des Annonces"
-            fields: [{ property: 'intitule', label: 'Objet'},{ property: 'date', label: 'date publication'}, { property: 'dateFin', label: 'Validite' } {property: 'fichannonces', label: 'Piece-joint', base_path:}]
+            fields: [{ property: 'intitule', label: 'Objet'},{ property: 'date', label: 'date publication'}, { property: 'dateFin', label: 'Validite' } {property: 'attachement', label: 'Piece-joint', base_path:}]
         show:
             title: "Detail de l'annonce"
-            fields: [{ property: 'intitule', label: 'Objet'},{ property: 'date', label: 'date publication'}, { property: 'dateFin', label: 'Validite' }{property: 'fichannonces', label: 'Piece-joint', base_path: '../web/uploads/annonces/fichier'} ,{ property: 'information', label: 'Message'}]
+            fields: [{ property: 'intitule', label: 'Objet'},{ property: 'date', label: 'date publication'}, { property: 'dateFin', label: 'Validite' }{property: 'attachement', label: 'Piece-joint', base_path: '../web/uploads/annonces/fichier'} ,{ property: 'information', label: 'Message'}]
         new:
             title: 'Ajouter une annonce'
             fields:
@@ -326,7 +327,7 @@ easy_admin:
                 - { type: 'group', css_class: 'col-lg-12', icon: 'envelop',label: 'Votre message' }
 
                 - { property: 'information', type: 'textarea', label: 'Message' , icon: 'envelop' ,  help: 'Le corp du mail'}
-                - { property: 'fichAnnonces', type: 'file', label: 'Piece-joint', icon: 'file' ,  help: 'Le fichier joint au mail'}
+                - { property: 'attachement', type: 'file', label: 'Piece-joint', icon: 'file' ,  help: 'Le fichier joint au mail'}
         edit:
            title: 'Modifier Annonce'
            fields:
@@ -339,7 +340,7 @@ easy_admin:
                 - { type: 'group', css_class: 'col-lg-12', icon: 'envelop',label: 'Votre message' }
 
                 - { property: 'information',label: 'Message' , icon: 'envelop' ,  help: 'Le corp du mail'}
-                - fichAnnonces
+                - attachement
 
 
   site_name: "UNB LIVE-REZO"
